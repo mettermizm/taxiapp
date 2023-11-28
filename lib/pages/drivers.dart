@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:animated_rating_stars/animated_rating_stars.dart';
  
 class Peoples extends StatefulWidget {
   const Peoples({super.key});

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:taxiapp/class/custom_icon.dart';
 
 class Options extends StatefulWidget {
   const Options({Key? key}) : super(key: key);

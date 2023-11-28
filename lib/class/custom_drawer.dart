@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:taxiapp/pages/account.dart';
+<<<<<<< HEAD
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+=======
+>>>>>>> 4db8508c05738bfd5947c8c692c3cf83e543c16b
 import 'package:taxiapp/pages/add_credit_card.dart';
 import 'package:taxiapp/pages/past_ride.dart';
 
