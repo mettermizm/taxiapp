@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  animated_rating_stars
   geolocator_windows
   permission_handler_windows
 )

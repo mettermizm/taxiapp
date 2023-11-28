@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:taxiapp/pages/drivers.dart';
 import 'package:taxiapp/pages/nearest_Taxis.dart';
-import 'package:taxiapp/pages/nearest_people.dart';
+import 'package:taxiapp/pages/drivers.dart';
 import 'package:taxiapp/pages/search_area.dart';
-
-// ignore: must_be_immutable
+ 
 class BottomBar extends StatefulWidget {
   String? konum;
-  BottomBar({super.key, this.konum});
-
+  BottomBar({Key? key, this.konum,}) : super(key: key);
+ 
   @override
   State<BottomBar> createState() => _BottomBarState();
 }
-
+ 
 class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
@@ -198,7 +198,7 @@ class _BottomBarState extends State<BottomBar> {
               ),
               SizedBox(height: 20),
               Container(
-                  height: 75,
+                  height: 100,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
@@ -214,105 +214,110 @@ class _BottomBarState extends State<BottomBar> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(0),
-                          child: Column(
+                        
+                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Ücretlendirme",
+                                "Seçilen Araç:",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 13),
+                                    fontWeight: FontWeight.w600, fontSize: 16),
                               ),
                               Text(
-                                "15 TL/dk.",
+                                "Toyota Corolla Hatchback",
                                 style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                    fontSize: 12, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "15 TL/Km.",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),
-                        ),
-                        SizedBox(width: 10),
-                        SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Ödeme Yöntemleri",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 13),
-                              ),
-                              SizedBox(
-                                height: 6,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 48,
-                                    height: 28,
-                                    decoration: BoxDecoration(
-                                        color:
-                                            Color.fromARGB(255, 207, 204, 204),
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.7),
-                                              spreadRadius: 1,
-                                              blurRadius: 3,
-                                              offset: Offset(0, 1))
-                                        ]),
-                                    child: Center(
-                                        child: Text(
-                                      "Nakit",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600),
-                                    )),
-                                  ),
-                                  SizedBox(
-                                    width: 12,
-                                  ),
-                                  Container(
-                                    width: 48,
-                                    height: 28,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.7),
-                                              spreadRadius: 1,
-                                              blurRadius: 3,
-                                              offset: Offset(0, 1))
-                                        ]),
-                                    child: Center(
-                                        child: Text(
-                                      "MasterCard",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 8, color: Colors.red),
-                                    )),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                        
+                        SizedBox(width: 8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Ödeme Yöntemleri",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 13),
+                            ),
+                            SizedBox(
+                              height: 6,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 48,
+                                  height: 28,
+                                  decoration: BoxDecoration(
+                                      color:
+                                          Color.fromARGB(255, 207, 204, 204),
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color:
+                                                Colors.grey.withOpacity(0.7),
+                                            spreadRadius: 1,
+                                            blurRadius: 3,
+                                            offset: Offset(0, 1))
+                                      ]),
+                                  child: Center(
+                                      child: Text(
+                                    "Nakit",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600),
+                                  )),
+                                ),
+                                SizedBox(
+                                  width: 12,
+                                ),
+                                Container(
+                                  width: 48,
+                                  height: 28,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color:
+                                                Colors.grey.withOpacity(0.7),
+                                            spreadRadius: 1,
+                                            blurRadius: 3,
+                                            offset: Offset(0, 1))
+                                      ]),
+                                  child: Center(
+                                      child: Text(
+                                    "MasterCard",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 8, color: Colors.red),
+                                  )),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ],
                     ),
                   )),
               SizedBox(height: 20),
               GestureDetector(
-                onTap: () {
-                  print('');
-                },
+                  onTap: () => {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchArea()),
+                        )
+                      },
                 child: Container(
                   height: 60,
                   decoration: BoxDecoration(
@@ -338,6 +343,6 @@ class _BottomBarState extends State<BottomBar> {
           ),
         ),
       ],
-    ); //Text('Taksi Çağır', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),),
+    );
   }
 }
