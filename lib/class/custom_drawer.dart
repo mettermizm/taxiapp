@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taxiapp/pages/payment.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -43,8 +44,11 @@ class CustomDrawer extends StatelessWidget {
                 leading: Icon(Icons.payment),
                 title: Text('Ödeme Yöntemlerim'),
                 onTap: () {
-                  Navigator.pop(context); // Drawer'ı kapatmak için
-                },
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Payment()),
+                      );
+                    },
               ),
               ListTile(
                 leading: Icon(Icons.calculate),
