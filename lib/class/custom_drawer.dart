@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:taxiapp/pages/account.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart';
-import 'package:taxiapp/pages/add_credit_card.dart';
 import 'package:taxiapp/pages/past_ride.dart';
 import 'package:taxiapp/pages/payment.dart';
 
