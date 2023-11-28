@@ -126,14 +126,7 @@ double degreesToRadians(double degrees) {
   return degrees * pi / 180;
 }
 
-/*
-Future<double> calculateDistance() async {
-  double distance = await Geolocator.distanceBetween(38.475370256050795,
-      27.03760666748706, 38.41170946334618, 27.128457612315454);
-  return distance;
-}
-*/
-
+// ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   Map<String, dynamic>? baslangic;
   Map<String, dynamic>? marker;
