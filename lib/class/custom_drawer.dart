@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:taxiapp/pages/payment.dart';
+import 'package:taxiapp/pages/account.dart';
+import 'package:taxiapp/pages/creditcard.dart';
+import 'package:taxiapp/pages/past_ride.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -30,25 +32,25 @@ class CustomDrawer extends StatelessWidget {
                 leading: Icon(Icons.person),
                 title: Text('Hesabım'),
                 onTap: () {
-                  Navigator.pop(context); // Drawer'ı kapatmak için
+                  // Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Account()));
                 },
               ),
               ListTile(
                 leading: Icon(Icons.history),
                 title: Text('Geçmiş Yolculuklarım'),
                 onTap: () {
-                  Navigator.pop(context); // Drawer'ı kapatmak için
+                  // Navigator.pop(context); // Drawer'ı kapatmak için
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PastRide()));
                 },
               ),
               ListTile(
                 leading: Icon(Icons.payment),
                 title: Text('Ödeme Yöntemlerim'),
                 onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Payment()),
-                      );
-                    },
+                  // Navigator.pop(context); // Drawer'ı kapatmak için
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CreditCart()));
+                },
               ),
               ListTile(
                 leading: Icon(Icons.calculate),
