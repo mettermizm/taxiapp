@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:taxiapp/class/model/taxi_people_model.dart';
- 
+import 'package:taxiapp/pages/search_area.dart';
+
 class Taxis extends StatefulWidget {
   const Taxis({Key? key}) : super(key: key);
- 
+
   @override
   State<Taxis> createState() => _TaxisState();
 }
- 
+
 class _TaxisState extends State<Taxis> {
   // Araba verilerini içeren liste
- 
+  final List<Map<String, dynamic>> carData = [
+    {"name": "Toyota Corolla Hatchback", "status": "yakınlarda", "price": 15},
+    {"name": "Renault Clio", "status": "0.5 Km", "price": 11},
+    {"name": "Hyundai Elantra", "status": "0.8 Km", "price": 18},
+    {"name": "Hyundai Accent Blue", "status": "1.1 Km", "price": 21},
+    {"name": "Ford Focus", "status": "1.2 Km", "price": 16},
+    {"name": "Ford Mustang", "status": "1.5 Km", "price": 35},
+  ];
+
   String selectedCar = "";
- 
+  int selectedPrice = 0; 
+
   @override
   void initState() {
     super.initState();
-    selectedCar = Data.carData.isNotEmpty ? Data.carData[0]["name"]! : "";
+    selectedCar = carData.isNotEmpty ? carData[0]["name"]! : "";
+    selectedPrice = carData.isNotEmpty ? carData[0]["price"]! : 0;
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,12 +41,12 @@ class _TaxisState extends State<Taxis> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: Data.carData.length,
+              itemCount: carData.length,
               itemBuilder: (context, index) {
                 return buildCustomContainer(
-                  Data.carData[index]["name"]!,
-                  Data.carData[index]["status"]!,
-                  Data.peopleList[index]['avatarUrl']!,
+                  carData[index]["name"]!,
+                  carData[index]["status"]!,
+                  carData[index]["price"]!,
                 );
               },
             ),
@@ -64,7 +74,7 @@ class _TaxisState extends State<Taxis> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Seçilen Taksi", style: TextStyle(fontSize: 20, )),
-                        Text(selectedCar, style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 16 )),
+                        Text('${selectedCar} ${selectedPrice} TL/Km', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 15 )),
                       ],
                     ),
                   ),
@@ -74,7 +84,10 @@ class _TaxisState extends State<Taxis> {
                       style: TextStyle(fontSize: 16),
                     ),
                     onPressed: () {
-                      print("Devam");
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchArea()),
+                        );
                     },
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.black,
@@ -90,8 +103,8 @@ class _TaxisState extends State<Taxis> {
       ),
     );
   }
- 
-  Widget buildCustomContainer(String carName, String status, String avatarUrl) {
+
+  Widget buildCustomContainer(String carName, String status, int price) {
     return Container(
       margin: EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -106,17 +119,16 @@ class _TaxisState extends State<Taxis> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CircleAvatar(
-                // Profil resmi ekleme
-                backgroundImage: NetworkImage(avatarUrl),
-              ),
-            //Icon(Icons.local_taxi, color: Colors.amber, size: 28),
+            Icon(Icons.local_taxi, color: Colors.amber, size: 28),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Column(
                 children: [
                   Text(carName, style: TextStyle(fontSize: 16)),
+                  SizedBox(height: 4,),
                   Text(status, style: TextStyle(color: Colors.grey)),
+                  SizedBox(height: 4,),
+                  Text('${price} TL/Km', style: TextStyle(fontWeight: FontWeight.bold),),
                 ],
               ),
             ),
@@ -128,6 +140,7 @@ class _TaxisState extends State<Taxis> {
               onPressed: () {
                 setState(() {
                   selectedCar = carName;
+                  selectedPrice = price;
                 });
               },
               style: TextButton.styleFrom(
