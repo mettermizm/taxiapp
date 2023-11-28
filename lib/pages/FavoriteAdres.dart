@@ -8,7 +8,12 @@ class FavoriteAdres extends StatefulWidget {
 }
 
 // enum SingingCharacter { ev1, ev2, is1, is2, yeniAdres, yeniAdres2,yeniAdres3,yeniAdres4 }
-List<String> adresTypes = ['Ev Adresi 1', 'Ev Adresi 2', 'İş Adresi 1', 'İş Adresi 2'];
+List<String> adresTypes = [
+  'Ev Adresi 1',
+  'Ev Adresi 2',
+  'İş Adresi 1',
+  'İş Adresi 2'
+];
 
 class _FavoriteAdresState extends State<FavoriteAdres> {
   // SingingCharacter? _character = SingingCharacter.ev1;
@@ -160,12 +165,14 @@ class _FavoriteAdresState extends State<FavoriteAdres> {
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            return Container(
-              height: MediaQuery.of(context).size.height * 0.9,
-              padding: EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: SingleChildScrollView(
+            return SingleChildScrollView(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: Container(
+                padding: EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.min,
@@ -251,6 +258,7 @@ class _FavoriteAdresState extends State<FavoriteAdres> {
                         },
                       ),
                       TextFormField(
+                        keyboardType: TextInputType.number,
                         controller: postaKoduController,
                         decoration: InputDecoration(labelText: 'Posta Kodu'),
                         validator: (value) {
@@ -261,6 +269,7 @@ class _FavoriteAdresState extends State<FavoriteAdres> {
                         },
                       ),
                       TextFormField(
+                        keyboardType: TextInputType.number,
                         controller: telefonNumarasiController,
                         decoration: InputDecoration(labelText: 'Cep Telefonu'),
                         validator: (value) {

@@ -35,26 +35,25 @@ class _OptionsState extends State<Options> {
               ),
             ),
           ),
-         Positioned(
-  top: 35.0,
-  left: 10.0,
-  child: Container(
-    width: 40.0,
-    height: 40.0,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10.0),
-      color: Color(0xfff2f2f2),
-    ),
-    child: IconButton(
-      color: Colors.amber,
-      icon: Icon(Icons.arrow_back_outlined),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    ),
-  ),
-),
-
+          Positioned(
+            top: 35.0,
+            left: 10.0,
+            child: Container(
+              width: 40.0,
+              height: 40.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Color(0xfff2f2f2),
+              ),
+              child: IconButton(
+                color: Colors.amber,
+                icon: Icon(Icons.arrow_back_outlined),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ),
           Positioned(
             bottom: 0,
             left: 0,
@@ -89,7 +88,6 @@ class _OptionsState extends State<Options> {
                         Switch(
                           value: animalDeger,
                           activeColor: Colors.orange,
-
                           onChanged: (bool value) {
                             setState(() {
                               animalDeger = value;
@@ -130,7 +128,6 @@ class _OptionsState extends State<Options> {
                         Switch(
                           value: eyesDeger,
                           activeColor: Colors.orange,
-
                           onChanged: (bool value) {
                             setState(() {
                               eyesDeger = value;

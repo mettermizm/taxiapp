@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:taxiapp/pages/Help.dart';
 import 'package:taxiapp/pages/account.dart';
-<<<<<<< HEAD
+
 import 'package:flutter_credit_card/flutter_credit_card.dart';
-=======
->>>>>>> 4db8508c05738bfd5947c8c692c3cf83e543c16b
+
 import 'package:taxiapp/pages/add_credit_card.dart';
 import 'package:taxiapp/pages/past_ride.dart';
 
@@ -67,7 +67,9 @@ class CustomDrawer extends StatelessWidget {
                 leading: Icon(Icons.help),
                 title: Text('Yardım'),
                 onTap: () {
-                  Navigator.pop(context); // Drawer'ı kapatmak için
+                  // Navigator.pop(context); // Drawer'ı kapatmak için
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Help()));
+
                 },
               ),
 
