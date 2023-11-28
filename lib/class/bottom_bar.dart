@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:taxiapp/pages/drivers.dart';
 import 'package:taxiapp/pages/nearest_Taxis.dart';
-import 'package:taxiapp/pages/drivers.dart';
 import 'package:taxiapp/pages/search_area.dart';
  
+// ignore: must_be_immutable
 class BottomBar extends StatefulWidget {
   String? konum;
   BottomBar({Key? key, this.konum,}) : super(key: key);
