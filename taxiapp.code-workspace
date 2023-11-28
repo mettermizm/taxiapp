@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "taxiapp",
+			"path": "."
+		},
+		{
+			"name": "lib",
+			"path": "../../../Downloads/taxiapp/taxiapp/lib"
+		}
+	],
+	"settings": {}
+}
