@@ -4,7 +4,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:taxiapp/class/custom_icon.dart';
 import 'package:taxiapp/class/custom_drawer.dart';
-import 'package:taxiapp/pages/on_boarding.dart';
 import 'class/bottom_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -96,7 +95,7 @@ class MyApp extends StatelessWidget {
           } else {
             // İzin verildiyse veya reddedildiyse, duruma göre bir sayfa oluşturun.
             final bool hasPermission = snapshot.data ?? false;
-            return hasPermission ? Onboarding() : ErrorWidget();
+            return hasPermission ? MyHomePage() : ErrorWidget();
           }
         },
       ),
@@ -126,7 +125,8 @@ double calculateDistance({lat1, lon1, lat2, lon2}) {
 double degreesToRadians(double degrees) {
   return degrees * pi / 180;
 }
-
+ 
+// ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   Map<String, dynamic>? baslangic;
   Map<String, dynamic>? marker;
@@ -171,6 +171,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 markers: [
                   Marker(
                     point: LatLng(38.475370256050795, 27.03760666748706),
+                    width: 100,
+                    height: 100,
+                    child: Icon(
+                      Icons.location_pin,
+                    ),
+                  ),
+                  Marker(
+                    point: LatLng(widget.marker?['lat'] ?? 38.475370256050795,
+                        widget.marker?['lang'] ?? 27.03760666748706),
                     width: 100,
                     height: 100,
                     child: Icon(
@@ -232,8 +241,7 @@ class _MyHomePageState extends State<MyHomePage> {
               visible: showOtherWidgets,
               child: BottomBar(
                   konum:
-                      widget.baslangic == null ? null : widget.marker?['name']
-              ),
+                      widget.baslangic == null ? null : widget.marker?['name']),
             ),
           ),
         ],
