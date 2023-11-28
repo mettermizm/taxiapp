@@ -49,7 +49,7 @@ class _FavoriteAdresState extends State<FavoriteAdres> {
 
   // Modal açılıp kapanması için kontrolcü (controller)
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _modalOpen = false;
+  //bool _modalOpen = false;
   void temizle() {
     adresTipiController.clear();
     mahalleController.clear();
