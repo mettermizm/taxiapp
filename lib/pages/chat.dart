@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(ChatPage());
 }
 
@@ -42,7 +45,7 @@ class ChatScreenState extends State<ChatScreen> {
                     child: CircularProgressIndicator(),
                   );
                 }
-                var messages = snapshot.data!.documents;
+                var messages = snapshot.data!.docs;
                 List<Widget> messageWidgets = [];
                 for (var message in messages) {
                   String text = message['text'];
