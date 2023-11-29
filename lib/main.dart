@@ -110,7 +110,6 @@ class _ErrorWidgetState extends State<ErrorWidget> {
   }
 }
 
-
 /*YEDEK KODLAR
 
   double calculateDistance({lat1, lon1, lat2, lon2}) {

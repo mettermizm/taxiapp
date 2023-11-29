@@ -100,9 +100,9 @@ class ChatScreenState extends State<ChatScreen> {
   void _handleSubmitted(String text) async {
     _textController.clear();
     await _firestore.collection('messages').add({
-      'text': text,
-      'sender': _currentUserId,
-      'timestamp': FieldValue.serverTimestamp(),
+      'message': text,
+      'name': '_currentUserId',
+      'surname': 'FieldValue.serverTimestamp()',
     });
   }
 }
