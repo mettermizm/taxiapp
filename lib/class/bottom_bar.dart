@@ -3,19 +3,46 @@ import 'package:provider/provider.dart';
 import 'package:taxiapp/class/theme.dart';
 import 'package:taxiapp/pages/drivers.dart';
 import 'package:taxiapp/pages/nearest_Taxis.dart';
+import 'package:taxiapp/pages/payment.dart';
 import 'package:taxiapp/pages/search_area.dart';
 import 'package:taxiapp/class/model/taxi_people_model.dart';
- 
+
 // ignore: must_be_immutable
 class BottomBar extends StatefulWidget {
   String? konum;
-  BottomBar({Key? key, this.konum,}) : super(key: key);
- 
+  BottomBar({
+    Key? key,
+    this.konum,
+  }) : super(key: key);
+
   @override
   State<BottomBar> createState() => _BottomBarState();
 }
- 
+
 class _BottomBarState extends State<BottomBar> {
+  bool isCashSelected = false;
+  bool isMasterCardSelected = false;
+
+  void selectCash() {
+    setState(() {
+      isCashSelected = !isCashSelected;
+      isMasterCardSelected = false;
+    });
+    // Burada nakit seçildiğinde yapılacak işlemler eklenebilir
+  }
+
+  void selectMasterCard() {
+    setState(() {
+      isCashSelected = false;
+      isMasterCardSelected = true;
+    });
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Payment()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -226,6 +253,7 @@ class _BottomBarState extends State<BottomBar> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+<<<<<<< Updated upstream
                         
                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,6 +275,28 @@ class _BottomBarState extends State<BottomBar> {
                             ],
                           ),
                         
+=======
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Seçilen Araç:",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 16),
+                            ),
+                            Text(
+                              '${Provider.of<DataProvider>(context).selectedCar}',
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "${Provider.of<DataProvider>(context).selectedPrice} TL/Km.",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+>>>>>>> Stashed changes
                         SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,32 +312,52 @@ class _BottomBarState extends State<BottomBar> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Container(
-                                  width: 48,
-                                  height: 28,
-                                  decoration: BoxDecoration(
-                                      color:
-                                          Color.fromARGB(255, 207, 204, 204),
+                                GestureDetector(
+                                  onTap: selectCash,
+                                  child: Container(
+                                    width: 48,
+                                    height: 28,
+                                    decoration: BoxDecoration(
+                                      color: isCashSelected
+                                          ? Colors.green
+                                          : Color.fromARGB(255, 207, 204, 204),
                                       border: Border.all(color: Colors.grey),
                                       borderRadius: BorderRadius.circular(10),
                                       boxShadow: [
                                         BoxShadow(
-                                            color:
-                                                Colors.grey.withOpacity(0.7),
-                                            spreadRadius: 1,
-                                            blurRadius: 3,
-                                            offset: Offset(0, 1))
-                                      ]),
-                                  child: const Center(
+                                          color: Colors.grey.withOpacity(0.7),
+                                          spreadRadius: 1,
+                                          blurRadius: 3,
+                                          offset: Offset(0, 1),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Center(
                                       child: Text(
+<<<<<<< Updated upstream
                                     "Nakit",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 12 ),
                                   )),
+=======
+                                        "Nakit",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                          color: isCashSelected
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+>>>>>>> Stashed changes
                                 ),
                                 SizedBox(
                                   width: 12,
                                 ),
+<<<<<<< Updated upstream
                                 Container(
                                   width: 48,
                                   height: 28,
@@ -309,6 +379,39 @@ class _BottomBarState extends State<BottomBar> {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 8 ),
                                   )),
+=======
+                                GestureDetector(
+                                  onTap: selectMasterCard,
+                                  child: Container(
+                                    width: 48,
+                                    height: 28,
+                                    decoration: BoxDecoration(
+                                        color: isMasterCardSelected
+                                            ? Colors.green
+                                            : Colors.white,
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(10),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.7),
+                                              spreadRadius: 1,
+                                              blurRadius: 3,
+                                              offset: Offset(0, 1))
+                                        ]),
+                                    child: Center(
+                                        child: Text(
+                                      "MasterCard",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 8,
+                                        color: isMasterCardSelected
+                                            ? Colors.white
+                                            : Colors.red,
+                                      ),
+                                    )),
+                                  ),
+>>>>>>> Stashed changes
                                 ),
                               ],
                             )
@@ -319,12 +422,12 @@ class _BottomBarState extends State<BottomBar> {
                   )),
               SizedBox(height: 20),
               GestureDetector(
-                  onTap: () => {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SearchArea()),
-                        )
-                      },
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SearchArea()),
+                  )
+                },
                 child: Container(
                   height: 60,
                   decoration: BoxDecoration(

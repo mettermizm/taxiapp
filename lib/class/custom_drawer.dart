@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taxiapp/pages/Help.dart';
 import 'package:taxiapp/pages/account.dart';
+import 'package:taxiapp/pages/auth/LoginPages.dart';
 import 'package:taxiapp/pages/past_ride.dart';
 import 'package:taxiapp/pages/payment.dart';
 
@@ -57,7 +58,8 @@ class CustomDrawer extends StatelessWidget {
                 leading: Icon(Icons.calculate),
                 title: Text('Ücret Hesaplama'),
                 onTap: () {
-                  Navigator.pop(context); // Drawer'ı kapatmak için
+                  // Navigator.pop(context); // Drawer'ı kapatmak için
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
                 },
               ),
               ListTile(

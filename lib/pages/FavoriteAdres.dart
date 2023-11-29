@@ -49,8 +49,7 @@ class _FavoriteAdresState extends State<FavoriteAdres> {
   final TextEditingController ilController = TextEditingController();
   final TextEditingController ilceController = TextEditingController();
   final TextEditingController postaKoduController = TextEditingController();
-  final TextEditingController telefonNumarasiController =
-      TextEditingController();
+  final TextEditingController telefonNumarasiController = TextEditingController();
 
   // Modal açılıp kapanması için kontrolcü (controller)
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
