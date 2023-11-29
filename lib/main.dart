@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiapp/class/theme.dart';
+import 'package:taxiapp/pages/auth/authentication.dart';
 import 'package:taxiapp/pages/map_page.dart';
 import 'package:permission_handler/permission_handler.dart';
  
@@ -8,7 +9,9 @@ void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeNotifier(),
-      child: const MyApp(),
+      child: const MaterialApp(
+        home: AuthenticationPage(),
+      ),
     ),
   );
 }

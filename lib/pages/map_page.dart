@@ -7,6 +7,7 @@ import 'package:taxiapp/class/bottom_bar.dart';
 import 'package:taxiapp/class/custom_drawer.dart';
 import 'package:taxiapp/class/custom_icon.dart';
 
+// ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   Map<String, dynamic>? baslangic;
   Map<String, dynamic>? marker;
