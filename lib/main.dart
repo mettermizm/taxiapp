@@ -2,16 +2,27 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 import 'package:taxiapp/class/custom_icon.dart';
 import 'package:taxiapp/class/custom_drawer.dart';
+import 'package:taxiapp/class/model/taxi_people_model.dart';
 import 'class/bottom_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
  
+// void main() {
+//   runApp(const MyApp());
+// }
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => DataProvider()), 
+    ],
+    child: const MyApp(),
+  ));
 }
+
  
 Future<Position> getCurrentLocation() async {
   bool serviceEnabled;

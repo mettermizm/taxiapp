@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:taxiapp/pages/drivers.dart';
 import 'package:taxiapp/pages/nearest_Taxis.dart';
 import 'package:taxiapp/pages/search_area.dart';
+import 'package:taxiapp/class/model/taxi_people_model.dart';
  
 // ignore: must_be_immutable
 class BottomBar extends StatefulWidget {
@@ -224,12 +226,12 @@ class _BottomBarState extends State<BottomBar> {
                                     fontWeight: FontWeight.w600, fontSize: 16),
                               ),
                               Text(
-                                "Toyota Corolla Hatchback",
+                                '${Provider.of<DataProvider>(context).selectedCar}',
                                 style: TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                "15 TL/Km.",
+                                "${Provider.of<DataProvider>(context).selectedPrice} TL/Km.",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
@@ -268,7 +270,7 @@ class _BottomBarState extends State<BottomBar> {
                                             blurRadius: 3,
                                             offset: Offset(0, 1))
                                       ]),
-                                  child: Center(
+                                  child: const Center(
                                       child: Text(
                                     "Nakit",
                                     textAlign: TextAlign.center,
