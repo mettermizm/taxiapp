@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taxiapp/class/theme.dart';
 
 class AccountSettings extends StatefulWidget {
   const AccountSettings({Key? key}) : super(key: key);
@@ -43,11 +45,16 @@ class AccountSettingsState extends State<AccountSettings> {
             height: 20.0,
           ),
           buildNotificationItem(
-              Icons.mode_night_outlined, 'Gece Modu', darkMode, (value) {
-            setState(() {
-              darkMode = value;
-            });
-          }),
+            Icons.mode_night_outlined, 
+            'Gece Modu', 
+            darkMode, 
+            (value) {
+              setState(() {
+                darkMode = value;
+              });
+              Provider.of<ThemeNotifier>(context, listen: false).toggleTheme();
+            }
+          ),
           SizedBox(
             height: 20.0,
           ),

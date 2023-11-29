@@ -69,14 +69,6 @@ class CustomDrawer extends StatelessWidget {
 
                 },
               ),
-              ListTile(
-                  leading: Icon(Icons.light_mode),
-                  title: const Text('Night Mode'),
-                  /*onTap: () {
-                    Provider.of<ThemeNotifier>(context, listen: false)
-                        .toggleTheme();
-                  },*/
-                ),
               ],
             ),
           ),

@@ -2,15 +2,22 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 import 'package:taxiapp/class/custom_icon.dart';
 import 'package:taxiapp/class/custom_drawer.dart';
+import 'package:taxiapp/class/theme.dart';
 import 'class/bottom_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
  
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ThemeNotifier(),
+      child: const MyApp(),
+    ),
+  );
 }
  
 Future<Position> getCurrentLocation() async {
@@ -77,12 +84,16 @@ void calculateUserDistance() async {
  
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
- 
+
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Project Taxi',
+      theme: ThemeData.light(), // Light tema
+      darkTheme: ThemeData.dark(), // Dark tema
+      themeMode: themeNotifier.isDarkMode ? ThemeMode.dark : ThemeMode.light, // Aktif tema modu
       home: FutureBuilder<bool>(
         future: requestLocationPermission(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
