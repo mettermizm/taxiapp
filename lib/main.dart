@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    final themeNotifier = Provider.of<ThemeNotifier>(context);//Provider.of<ThemeNotifier>(context).themeNotifier.isDarkMode ?
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Project Taxi',
