@@ -87,15 +87,26 @@ class _BottomBarState extends State<BottomBar> {
                       child: TextField(
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,
+                          color:
+                              Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? Colors.white
+                                  : Colors.black,
                           fontSize: 16,
                         ),
                         decoration: InputDecoration(
                           filled: true, // Arka plan rengini etkinleştirmek için
-                          fillColor: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.black : Colors.white,
-                          border: OutlineInputBorder( // Sınır stilini ayarlamak için
-                            borderRadius: BorderRadius.circular(8), // Kenar yuvarlaklığı
-                            borderSide: BorderSide.none, // Sınır çizgisini kaldırmak için
+                          fillColor:
+                              Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? Colors.black
+                                  : Colors.white,
+                          border: OutlineInputBorder(
+                            // Sınır stilini ayarlamak için
+                            borderRadius:
+                                BorderRadius.circular(8), // Kenar yuvarlaklığı
+                            borderSide: BorderSide
+                                .none, // Sınır çizgisini kaldırmak için
                           ),
                           hintText: widget.konum ?? 'Nereye Gitmek İstersiniz?',
                         ),
@@ -158,8 +169,14 @@ class _BottomBarState extends State<BottomBar> {
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
                                     "En Yakın Taksiler",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color:
+                                            Provider.of<ThemeNotifier>(context)
+                                                        .isDarkMode ==
+                                                    true
+                                                ? Colors.white
+                                                : Colors.black),
                                   ),
                                 ),
                               ),
@@ -211,8 +228,14 @@ class _BottomBarState extends State<BottomBar> {
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
                                     "Şoförünü Seç",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color:
+                                            Provider.of<ThemeNotifier>(context)
+                                                        .isDarkMode ==
+                                                    true
+                                                ? Colors.white
+                                                : Colors.black),
                                   ),
                                 ),
                               ),
@@ -253,36 +276,19 @@ class _BottomBarState extends State<BottomBar> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-<<<<<<< Updated upstream
-                        
-                         Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Seçilen Araç:",
-                                style: TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 16 ),
-                              ),
-                              Text(
-                                '${Provider.of<DataProvider>(context).selectedCar}',
-                                style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "${Provider.of<DataProvider>(context).selectedPrice} TL/Km.",
-                              
-                                style: TextStyle(fontWeight: FontWeight.bold,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 16 ),
-                              ),
-                            ],
-                          ),
-                        
-=======
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "Seçilen Araç:",
                               style: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 16),
+                                  fontWeight: FontWeight.w600,
+                                  color: Provider.of<ThemeNotifier>(context)
+                                              .isDarkMode ==
+                                          true
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontSize: 16),
                             ),
                             Text(
                               '${Provider.of<DataProvider>(context).selectedCar}',
@@ -292,18 +298,30 @@ class _BottomBarState extends State<BottomBar> {
                             Text(
                               "${Provider.of<DataProvider>(context).selectedPrice} TL/Km.",
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.bold,
+                                  color: Provider.of<ThemeNotifier>(context)
+                                              .isDarkMode ==
+                                          true
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontSize: 16),
                             ),
                           ],
                         ),
->>>>>>> Stashed changes
                         SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "Ödeme Yöntemleri",
-                              style: TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 13 ),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Provider.of<ThemeNotifier>(context)
+                                              .isDarkMode ==
+                                          true
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontSize: 13),
                             ),
                             SizedBox(
                               height: 6,
@@ -333,62 +351,26 @@ class _BottomBarState extends State<BottomBar> {
                                       ],
                                     ),
                                     child: Center(
-                                      child: Text(
-<<<<<<< Updated upstream
-                                    "Nakit",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 12 ),
-                                  )),
-=======
-                                        "Nakit",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                        child: Text(
+                                      "Nakit",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
                                           fontWeight: FontWeight.w600,
-                                          color: isCashSelected
+                                          color: Provider.of<ThemeNotifier>(
+                                                          context)
+                                                      .isDarkMode ==
+                                                  true
                                               ? Colors.white
                                               : Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
->>>>>>> Stashed changes
-                                ),
-                                SizedBox(
-                                  width: 12,
-                                ),
-<<<<<<< Updated upstream
-                                Container(
-                                  width: 48,
-                                  height: 28,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color:
-                                                Colors.grey.withOpacity(0.7),
-                                            spreadRadius: 1,
-                                            blurRadius: 3,
-                                            offset: Offset(0, 1))
-                                      ]),
-                                  child: Center(
-                                      child: Text(
-                                    "MasterCard",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 8 ),
-                                  )),
-=======
-                                GestureDetector(
-                                  onTap: selectMasterCard,
-                                  child: Container(
+                                          fontSize: 12),
+                                    )),
+                                  ),),
+                                  SizedBox(width: 12),
+                                  Container(
                                     width: 48,
                                     height: 28,
                                     decoration: BoxDecoration(
-                                        color: isMasterCardSelected
-                                            ? Colors.green
-                                            : Colors.white,
+                                        color: Colors.white,
                                         border: Border.all(color: Colors.grey),
                                         borderRadius: BorderRadius.circular(10),
                                         boxShadow: [
@@ -404,15 +386,17 @@ class _BottomBarState extends State<BottomBar> {
                                       "MasterCard",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontSize: 8,
-                                        color: isMasterCardSelected
-                                            ? Colors.white
-                                            : Colors.red,
-                                      ),
+                                          fontWeight: FontWeight.w600,
+                                          color: Provider.of<ThemeNotifier>(
+                                                          context)
+                                                      .isDarkMode ==
+                                                  true
+                                              ? Colors.white
+                                              : Colors.black,
+                                          fontSize: 8),
                                     )),
                                   ),
->>>>>>> Stashed changes
-                                ),
+                                
                               ],
                             )
                           ],
@@ -443,8 +427,14 @@ class _BottomBarState extends State<BottomBar> {
                   child: Center(
                     child: Text(
                       'Taksi Çağır',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 18 ),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color:
+                              Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? Colors.white
+                                  : Colors.black,
+                          fontSize: 18),
                     ),
                   ),
                 ),

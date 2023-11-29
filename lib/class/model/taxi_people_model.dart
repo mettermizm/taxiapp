@@ -1,4 +1,6 @@
 
+import 'package:flutter/material.dart';
+
 class DataProvider with ChangeNotifier {
    final List<Map<String, dynamic>> carData = [
     {"name": "Toyota Corolla Hatchback", "status": "yakınlarda", "price": 15},

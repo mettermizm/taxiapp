@@ -1,47 +1,32 @@
-import 'dart:math';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:taxiapp/class/custom_icon.dart';
-import 'package:taxiapp/class/custom_drawer.dart';
 import 'package:taxiapp/class/model/taxi_people_model.dart';
 import 'package:taxiapp/class/theme.dart';
 import 'package:taxiapp/firebase_options.dart';
-import 'class/bottom_bar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
- 
-// void main() {
-//   runApp(const MyApp());
-// }
-void main() async{
+import 'package:taxiapp/pages/auth/authentication.dart';
+import 'package:taxiapp/pages/map_page.dart';
 
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
 
- 
-void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeNotifier(),
-      child: const MaterialApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DataProvider()),
+        ChangeNotifierProvider(create: (context) => ThemeNotifier()),
+      ],
+      child: MaterialApp(
         home: AuthenticationPage(),
       ),
     ),
   );
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => DataProvider()), 
-       ChangeNotifierProvider(
-      create: (context) => ThemeNotifier(),)
-    ],
-    child: const MyApp(),
-  ));
 }
 
- 
 Future<bool> requestLocationPermission() async {
   final PermissionStatus status = await Permission.locationWhenInUse.request();
   if (status.isDenied) {
@@ -56,19 +41,22 @@ Future<bool> requestLocationPermission() async {
     return false;
   }
 }
- 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final themeNotifier = Provider.of<ThemeNotifier>(context);//Provider.of<ThemeNotifier>(context).themeNotifier.isDarkMode ?
+    final themeNotifier = Provider.of<ThemeNotifier>(
+        context); //Provider.of<ThemeNotifier>(context).themeNotifier.isDarkMode ?
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Project Taxi',
       theme: ThemeData.light(), // Light tema
       darkTheme: ThemeData.dark(), // Dark tema
-      themeMode: themeNotifier.isDarkMode ? ThemeMode.dark : ThemeMode.light, // Aktif tema modu
+      themeMode: themeNotifier.isDarkMode
+          ? ThemeMode.dark
+          : ThemeMode.light, // Aktif tema modu
       home: FutureBuilder<bool>(
         future: requestLocationPermission(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -89,14 +77,14 @@ class MyApp extends StatelessWidget {
     );
   }
 }
- 
+
 class ErrorWidget extends StatefulWidget {
   const ErrorWidget({super.key});
- 
+
   @override
   State<ErrorWidget> createState() => _ErrorWidgetState();
 }
- 
+
 class _ErrorWidgetState extends State<ErrorWidget> {
   @override
   Widget build(BuildContext context) {
@@ -105,33 +93,34 @@ class _ErrorWidgetState extends State<ErrorWidget> {
         title: Text('Konum izni vermeniz gerekmektedir'),
       ),
       body: Center(
-          child: Container(
-            alignment: Alignment.center, // İçeriği ekranın ortasına hizalar
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center, // Sütun içeriğini dikeyde ortalar
-              children: [
-                Text('Konum izni vermeniz gerekmektedir'),
-                ElevatedButton(
-                  onPressed: () async {
-                    bool hasPermission = await requestLocationPermission();
-                    if (hasPermission) {
-                      // İzin verildi, ana sayfaya yönlendir
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => MyHomePage()),
-                      );
-                    } else {
-                      // İzin verilmedi, hata mesajını göster
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Konum izni gereklidir!')),
-                      );
-                    }
-                  },
-                  child: Text('İzni Yeniden Dene'),
-                )
-              ],
-            ),
+        child: Container(
+          alignment: Alignment.center, // İçeriği ekranın ortasına hizalar
+          child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Sütun içeriğini dikeyde ortalar
+            children: [
+              Text('Konum izni vermeniz gerekmektedir'),
+              ElevatedButton(
+                onPressed: () async {
+                  bool hasPermission = await requestLocationPermission();
+                  if (hasPermission) {
+                    // İzin verildi, ana sayfaya yönlendir
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => MyHomePage()),
+                    );
+                  } else {
+                    // İzin verilmedi, hata mesajını göster
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Konum izni gereklidir!')),
+                    );
+                  }
+                },
+                child: Text('İzni Yeniden Dene'),
+              )
+            ],
           ),
         ),
+      ),
     );
   }
 }
