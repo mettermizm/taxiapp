@@ -1,48 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:taxiapp/main.dart';
+import 'package:taxiapp/pages/map_page.dart';
 
 const users = const {
-  'dribbble@gmail.com': '12345', //@
+  'dribbble@gmail.com': '12345',
   'hunter@gmail.com': 'hunter',
 };
 
 class AuthenticationPage extends StatelessWidget {
-  const AuthenticationPage({super.key});
+  const AuthenticationPage({Key? key});
 
   Duration get loginTime => Duration(milliseconds: 2250);
 
   Future<String?> _authUser(LoginData data) {
     debugPrint('Name: ${data.name}, Password: ${data.password}');
-    return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(data.name)) {
-        return 'User not exists';
-      }
-      if (users[data.name] != data.password) {
-        return 'Password does not match';
-      }
-      return null;
+    return FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+          email: data.name!,
+          password: data.password!,
+        )
+        .then((_) => null)
+        .catchError((e) {
+      debugPrint('Hata: $e');
+      return 'Giriş yapılamadı: $e';
     });
   }
 
   Future<String?> _signupUser(SignupData data) {
     debugPrint('Signup Name: ${data.name}, Password: ${data.password}');
-    return Future.delayed(loginTime).then((_) {
-      return null;
+    return FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+          email: data.name!,
+          password: data.password!,
+        )
+        .then((_) => null)
+        .catchError((e) {
+      debugPrint('Hata: $e');
+      return 'Hesap oluşturulamadı: $e';
     });
   }
 
   Future<String> _recoverPassword(String name) {
     debugPrint('Name: $name');
-    return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(name)) {
-        return 'User not exists';
-      }
-      return 'bravo';
+    return FirebaseAuth.instance
+        .sendPasswordResetEmail(email: name)
+        .then((_) => 'Şifre sıfırlama maili gönderildi')
+        .catchError((e) {
+      debugPrint('Hata: $e');
+      return 'Hata: $e';
     });
   }
-//@
+  //  decoration: BoxDecoration(
+  //           image: DecorationImage(
+  //             fit: BoxFit.cover,
+  //             image: NetworkImage(
+  //                 'https://storage.googleapis.com/thepangeapost/static/login-register-bg.png'),
+  //           ),
+  //         ),
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,59 +66,45 @@ class AuthenticationPage extends StatelessWidget {
         child: Container(
           height:
               MediaQuery.of(context).size.height - kBottomNavigationBarHeight,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(
-                  'https://storage.googleapis.com/thepangeapost/static/login-register-bg.png'),
-            ),
-          ),
           child: FlutterLogin(
-            title: 'Pangea',
-            logo: AssetImage('./assets/pangealogo.png'),
+            title: 'TaxiApp',
+            logo: AssetImage('./assets/car.png'),
             onLogin: _authUser,
             onSignup: _signupUser,
             loginProviders: <LoginProvider>[
               LoginProvider(
                 icon: FontAwesomeIcons.google,
                 callback: () async {
-                  debugPrint('start google sign in');
-                  await Future.delayed(loginTime);
-                  debugPrint('stop google sign in');
+                  // Google ile giriş yapmak için gerekli kodları buraya ekleyin
                   return null;
                 },
               ),
               LoginProvider(
                 icon: FontAwesomeIcons.facebookF,
                 callback: () async {
-                  debugPrint('start facebook sign in');
-                  await Future.delayed(loginTime);
-                  debugPrint('stop facebook sign in');
+                  // Facebook ile giriş yapmak için gerekli kodları buraya ekleyin
                   return null;
                 },
               ),
               LoginProvider(
                 icon: FontAwesomeIcons.linkedinIn,
                 callback: () async {
-                  debugPrint('start linkdin sign in');
-                  await Future.delayed(loginTime);
-                  debugPrint('stop linkdin sign in');
+                  // LinkedIn ile giriş yapmak için gerekli kodları buraya ekleyin
                   return null;
                 },
               ),
               LoginProvider(
                 icon: FontAwesomeIcons.instagram,
                 callback: () async {
-                  debugPrint('start instagram sign in');
-                  await Future.delayed(loginTime);
-                  debugPrint('stop intagram sign in');
+                  // Instagram ile giriş yapmak için gerekli kodları buraya ekleyin
                   return null;
                 },
               ),
             ],
             onSubmitAnimationCompleted: () {
+              // Giriş yaptıktan sonra yönlendirme veya işlemler yapabilirsiniz
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => MyApp(),
+                builder: (context) => MyHomePage(),
               ));
             },
             onRecoverPassword: _recoverPassword,
@@ -110,15 +112,5 @@ class AuthenticationPage extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-final _formKey = GlobalKey<FormState>();
-
-void _submitForm() {
-  if (_formKey.currentState!.validate()) {
-    _formKey.currentState!.save();
-    // Form kaydedildi ve doğrulandı
-    // Burada kayıt işlemlerini gerçekleştirebilirsiniz
   }
 }

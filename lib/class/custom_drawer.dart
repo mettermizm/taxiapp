@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taxiapp/class/theme.dart';
 import 'package:taxiapp/pages/Help.dart';
 import 'package:taxiapp/pages/account.dart';
 import 'package:taxiapp/pages/auth/LoginPages.dart';
@@ -24,8 +26,12 @@ class CustomDrawer extends StatelessWidget {
                       margin: EdgeInsets.only(bottom: 10),
                       decoration: BoxDecoration(shape: BoxShape.circle,),
                     ),
-                    Text("Project Taxi", style: TextStyle(color: Colors.white, fontSize: 20,),),
-                    Text("info@projecttaxi.com", style: TextStyle(color:  Colors.white, fontSize: 14),)
+                    Text("Project Taxi", style: TextStyle(color: Provider.of<ThemeNotifier>(context).isDarkMode == true
+                      ? Colors.black
+                      : Colors.white, fontSize: 20,),),
+                            Text("info@projecttaxi.com", style: TextStyle(color:Provider.of<ThemeNotifier>(context).isDarkMode == true
+                      ? Colors.black
+                      : Colors.white, fontSize: 14),)
                   ],
                 ),
               ),
@@ -43,7 +49,7 @@ class CustomDrawer extends StatelessWidget {
                 title: Text('Geçmiş Yolculuklarım'),
                 onTap: () {
                   // Navigator.pop(context); // Drawer'ı kapatmak için
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PastRide()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>  PastRide()));
                 },
               ),
               ListTile(

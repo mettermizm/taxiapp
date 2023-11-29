@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiapp/class/theme.dart';
+import 'package:taxiapp/pages/auth/authentication.dart';
 
 class AccountSettings extends StatefulWidget {
   const AccountSettings({Key? key}) : super(key: key);
@@ -13,6 +15,17 @@ class AccountSettingsState extends State<AccountSettings> {
   bool smsNotification = false;
   bool mailNotification = false;
   bool darkMode = false;
+
+  Future<void> signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => AuthenticationPage(),
+      ));
+    } catch (e) {
+      print('Çıkış yapılamadı: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,17 +57,17 @@ class AccountSettingsState extends State<AccountSettings> {
           SizedBox(
             height: 20.0,
           ),
-          buildNotificationItem(
-            Icons.mode_night_outlined, 
-            'Gece Modu', 
-            darkMode, 
-            (value) {
-              setState(() {
-                darkMode = value;
-              });
-              Provider.of<ThemeNotifier>(context, listen: false).toggleTheme();
-            }
-          ),
+            buildNotificationItem(
+              Icons.mode_night_outlined, 
+              'Gece Modu', 
+              darkMode, 
+              (value) {
+                setState(() {
+                  darkMode = value;
+                });
+                Provider.of<ThemeNotifier>(context, listen: false).toggleTheme();
+              }
+            ),
           SizedBox(
             height: 20.0,
           ),
@@ -144,6 +157,11 @@ class AccountSettingsState extends State<AccountSettings> {
           horizontal: 20.0,
         ),
         child: InkWell(
+          onTap: () {
+            if(text == 'Çıkış Yap'){
+              signOut(); 
+            }
+          },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
+import 'package:taxiapp/class/app_color.dart';
 import 'package:taxiapp/class/bottom_bar.dart';
 import 'package:taxiapp/class/custom_drawer.dart';
 import 'package:taxiapp/class/custom_icon.dart';
+import 'package:taxiapp/class/theme.dart';
 
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
@@ -56,6 +59,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 100,
                     child: Icon(
                       Icons.location_pin,
+                      color: Provider.of<ThemeNotifier>(context)
+                                                        .isDarkMode ==
+                                                    true
+                                                ? Colors.black
+                                                : Colors.black,
                     ),
                   ),
                   Marker(
@@ -65,6 +73,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 100,
                     child: Icon(
                       Icons.location_pin,
+                      color: Provider.of<ThemeNotifier>(context)
+                                                        .isDarkMode ==
+                                                    true
+                                                ? Colors.black
+                                                : Colors.black,
                     ),
                   ),
                   Marker(
@@ -73,6 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 90,
                     child: Icon(
                       FontAwesomeIcons.taxi,
+                      color: Provider.of<ThemeNotifier>(context)
+                                                        .isDarkMode ==
+                                                    true
+                                                ? Colors.black
+                                                : Colors.black,
                     ),
                   ),
                   Marker(
@@ -81,6 +99,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 190,
                     child: Icon(
                       FontAwesomeIcons.taxi,
+                      color: Provider.of<ThemeNotifier>(context)
+                                                        .isDarkMode ==
+                                                    true
+                                                ? Colors.black
+                                                : Colors.black,
                     ),
                   ),
                 ],
@@ -104,7 +127,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
                 iconTheme: IconThemeData(
-                  color: Colors.white,
+                  color:Provider.of<ThemeNotifier>(context)
+                                                        .isDarkMode ==
+                                                    true
+                                                ? Colors.black
+                                                : Colors.black,
                   size: 20.0,
                   opacity: 1,
                 ),

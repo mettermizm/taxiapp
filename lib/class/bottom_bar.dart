@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:taxiapp/class/app_color.dart';
 import 'package:taxiapp/class/theme.dart';
 import 'package:taxiapp/pages/drivers.dart';
 import 'package:taxiapp/pages/nearest_Taxis.dart';
@@ -22,6 +23,78 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   bool isCashSelected = false;
   bool isMasterCardSelected = false;
+
+  Future<void> _showConfirmationDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Gitmek İstediğiniz Konum:'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  widget.konum ?? 'Nereye Gitmek İstersiniz?',
+                  style: TextStyle(fontSize: 16, color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  "Seçilen Araç:",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+SizedBox(height: 15.0,),
+
+                Text(
+                  '${Provider.of<DataProvider>(context).selectedCar}',
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,),
+                ),
+SizedBox(height: 15.0,),
+
+                Text(
+                  "${Provider.of<DataProvider>(context).selectedPrice} TL/Km.",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+SizedBox(height: 15.0,),
+                Text('Taksi Çağırma İşlemini Onaylıyor Musunuz ?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Hayır'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Evet'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _showSnackbar();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showSnackbar() {
+    final snackBar = SnackBar(
+      content: Text('Taksi başarıyla çağırıldı!'),
+      duration: Duration(seconds: 2),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   void selectCash() {
     setState(() {
@@ -50,7 +123,9 @@ class _BottomBarState extends State<BottomBar> {
         Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(32),
-              color: Colors.white,
+              color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                true
+                ? AppColors.dark_theme.wigdetColor : Colors.white,
               boxShadow: [
                 BoxShadow(
                     color: Colors.grey.withOpacity(0.7),
@@ -66,55 +141,50 @@ class _BottomBarState extends State<BottomBar> {
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.amber,
+                  color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                  true
+                  ? Colors.amber : Colors.amber,
                 ),
                 child: Icon(
                   Icons.search,
-                  color: Colors.white,
+                  color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                  true
+                  ? AppColors.dark_theme.wigdetColor : Colors.white,
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SearchArea()),
-                      );
-                    },
-                    child: AbsorbPointer(
-                      child: TextField(
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color:
-                              Provider.of<ThemeNotifier>(context).isDarkMode ==
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SearchArea()),
+                        );
+                      },
+                        child: TextField(
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: Provider.of<ThemeNotifier>(context).isDarkMode ==
                                       true
-                                  ? Colors.white
-                                  : Colors.black,
-                          fontSize: 16,
-                        ),
-                        decoration: InputDecoration(
-                          filled: true, // Arka plan rengini etkinleştirmek için
-                          fillColor:
-                              Provider.of<ThemeNotifier>(context).isDarkMode ==
-                                      true
-                                  ? Colors.black
-                                  : Colors.white,
-                          border: OutlineInputBorder(
-                            // Sınır stilini ayarlamak için
-                            borderRadius:
-                                BorderRadius.circular(8), // Kenar yuvarlaklığı
-                            borderSide: BorderSide
-                                .none, // Sınır çizgisini kaldırmak için
+                                  ? Colors.white : Colors.black,
                           ),
-                          hintText: widget.konum ?? 'Nereye Gitmek İstersiniz?',
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              // Sınır stilini ayarlamak için
+                              borderRadius:
+                                  BorderRadius.circular(8), // Kenar yuvarlaklığı
+                              borderSide: BorderSide
+                                  .none, // Sınır çizgisini kaldırmak için
+                            ),
+                            hintText: widget.konum ?? 'Nereye Gitmek İstersiniz?',
+                            //hintStyle: TextStyle(color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,)
+                          ),
                         ),
-                      ),
                     ),
                   ),
                 ),
-              )
             ],
           ),
         ),
@@ -123,7 +193,9 @@ class _BottomBarState extends State<BottomBar> {
         ),
         Container(
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? AppColors.dark_theme.wigdetColor : Colors.white,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(36), topRight: Radius.circular(36)),
               boxShadow: [
@@ -175,7 +247,7 @@ class _BottomBarState extends State<BottomBar> {
                                             Provider.of<ThemeNotifier>(context)
                                                         .isDarkMode ==
                                                     true
-                                                ? Colors.white
+                                                ? Colors.black
                                                 : Colors.black),
                                   ),
                                 ),
@@ -234,7 +306,7 @@ class _BottomBarState extends State<BottomBar> {
                                             Provider.of<ThemeNotifier>(context)
                                                         .isDarkMode ==
                                                     true
-                                                ? Colors.white
+                                                ? Colors.black
                                                 : Colors.black),
                                   ),
                                 ),
@@ -262,7 +334,11 @@ class _BottomBarState extends State<BottomBar> {
               Container(
                   height: 100,
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color:  Provider.of<ThemeNotifier>(context)
+                                                        .isDarkMode ==
+                                                    true
+                                                ? AppColors.dark_theme.wigdetColor
+                                                : Colors.white,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
@@ -293,7 +369,7 @@ class _BottomBarState extends State<BottomBar> {
                             Text(
                               '${Provider.of<DataProvider>(context).selectedCar}',
                               style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold),
+                                  fontSize: 12, fontWeight: FontWeight.bold, color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,),
                             ),
                             Text(
                               "${Provider.of<DataProvider>(context).selectedPrice} TL/Km.",
@@ -336,9 +412,12 @@ class _BottomBarState extends State<BottomBar> {
                                     width: 48,
                                     height: 28,
                                     decoration: BoxDecoration(
-                                      color: isCashSelected
-                                          ? Colors.green
-                                          : Color.fromARGB(255, 207, 204, 204),
+                                      color: isCashSelected ? Colors.green
+                                          : Provider.of<ThemeNotifier>(
+                                                  context)
+                                                  .isDarkMode == true
+                                              ? AppColors.dark_theme.wigdetColor
+                                              : Colors.black,
                                       border: Border.all(color: Colors.grey),
                                       borderRadius: BorderRadius.circular(10),
                                       boxShadow: [
@@ -370,7 +449,11 @@ class _BottomBarState extends State<BottomBar> {
                                     width: 48,
                                     height: 28,
                                     decoration: BoxDecoration(
-                                        color: Colors.white,
+                                        color: Provider.of<ThemeNotifier>(
+                                                  context)
+                                                  .isDarkMode == true
+                                              ? AppColors.dark_theme.wigdetColor
+                                              : Colors.black,
                                         border: Border.all(color: Colors.grey),
                                         borderRadius: BorderRadius.circular(10),
                                         boxShadow: [
@@ -382,21 +465,20 @@ class _BottomBarState extends State<BottomBar> {
                                               offset: Offset(0, 1))
                                         ]),
                                     child: Center(
-                                        child: Text(
+                                      child: Text(
                                       "MasterCard",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           color: Provider.of<ThemeNotifier>(
-                                                          context)
-                                                      .isDarkMode ==
-                                                  true
+                                                  context)
+                                                  .isDarkMode == true
                                               ? Colors.white
                                               : Colors.black,
                                           fontSize: 8),
-                                    )),
+                                    )
                                   ),
-                                
+                                ),
                               ],
                             )
                           ],
@@ -407,10 +489,11 @@ class _BottomBarState extends State<BottomBar> {
               SizedBox(height: 20),
               GestureDetector(
                 onTap: () => {
-                  Navigator.push(
+                  /*Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => SearchArea()),
-                  )
+                  )*/
+                  _showConfirmationDialog(),
                 },
                 child: Container(
                   height: 60,
@@ -432,7 +515,7 @@ class _BottomBarState extends State<BottomBar> {
                           color:
                               Provider.of<ThemeNotifier>(context).isDarkMode ==
                                       true
-                                  ? Colors.white
+                                  ? Colors.black
                                   : Colors.black,
                           fontSize: 18),
                     ),

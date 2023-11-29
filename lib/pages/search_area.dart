@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taxiapp/class/theme.dart';
 import 'package:taxiapp/pages/map_page.dart';
 
 class SearchArea extends StatefulWidget {
@@ -84,7 +86,10 @@ class _SearchAreaState extends State<SearchArea> {
                   },
                   child: Icon(
                     Icons.close,
-                    color: Colors.black,
+                    color: Provider.of<ThemeNotifier>(context)
+                        .isDarkMode == true
+                        ? Colors.white
+                        : Colors.black,
                   ),
                 ),
               ],
@@ -137,7 +142,7 @@ class _SearchAreaState extends State<SearchArea> {
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(Icons.add),
                       ),
-                      Text("Ev Adresi Ekle"),
+                      Text("Ev Adresi Ekle",style: TextStyle(color: Colors.black),),
                     ],
                   )),
                 ),
@@ -164,7 +169,7 @@ class _SearchAreaState extends State<SearchArea> {
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(Icons.add),
                       ),
-                      Text("İş Adresi Ekle"),
+                      Text("İş Adresi Ekle", style: TextStyle(color: Colors.black),),
                     ],
                   )),
                 ),

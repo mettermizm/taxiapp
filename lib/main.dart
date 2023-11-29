@@ -18,11 +18,12 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DataProvider()),
-        ChangeNotifierProvider(create: (context) => ThemeNotifier()),
+        ChangeNotifierProvider(
+            create: (context) => ThemeNotifier()), // Tema sağlayıcısını ekleyin
       ],
-      child: MaterialApp(
-        home: AuthenticationPage(),
-      ),
+      child: MyApp(
+          // home: AuthenticationPage(),
+          ),
     ),
   );
 }
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
       title: 'Project Taxi',
       theme: ThemeData.light(), // Light tema
       darkTheme: ThemeData.dark(), // Dark tema
-      themeMode: themeNotifier.isDarkMode
+      themeMode: themeNotifier.isDarkMode == true
           ? ThemeMode.dark
           : ThemeMode.light, // Aktif tema modu
       home: FutureBuilder<bool>(
@@ -69,7 +70,8 @@ class MyApp extends StatelessWidget {
           } else {
             // İzin verildiyse veya reddedildiyse, duruma göre bir sayfa oluşturun.
             final bool hasPermission = snapshot.data ?? false;
-            return hasPermission ? MyHomePage() : ErrorWidget();
+            // return hasPermission ? MyHomePage() : ErrorWidget();
+            return hasPermission ? AuthenticationPage() : ErrorWidget();
           }
         },
       ),

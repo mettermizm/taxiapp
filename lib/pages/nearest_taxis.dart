@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiapp/class/model/taxi_people_model.dart';
+import 'package:taxiapp/class/theme.dart';
 import 'package:taxiapp/pages/search_area.dart';
 
 class Taxis extends StatefulWidget {
@@ -99,7 +100,7 @@ class _TaxisState extends State<Taxis> {
                             )),
                         Text('${selectedCar} ${selectedPrice} TL/Km',
                             style: TextStyle(
-                                color: Colors.grey,
+                                color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15)),
                       ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taxiapp/class/theme.dart';
 import 'package:taxiapp/pages/map_page.dart';
 
 class MyTextFormField extends StatelessWidget {
@@ -171,7 +173,9 @@ class _AccountProfileState extends State<AccountProfile> {
                       child: Text('Güncelle',
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              color: Colors.black)),
+                              color:Provider.of<ThemeNotifier>(context).isDarkMode == true
+              ? Colors.white
+              : Colors.white,)),
                     ),
                   ],
                 )

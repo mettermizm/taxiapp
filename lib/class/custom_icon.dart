@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taxiapp/class/theme.dart';
 
 class MyCustomIcon extends StatelessWidget {
   @override
@@ -7,7 +9,9 @@ class MyCustomIcon extends StatelessWidget {
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.white, 
+        color:Provider.of<ThemeNotifier>(context).isDarkMode == true
+              ? Colors.black
+              : Colors.white,
         shape: BoxShape.rectangle,
         boxShadow: [
           BoxShadow(
@@ -20,7 +24,9 @@ class MyCustomIcon extends StatelessWidget {
       ),
       child: Icon(
         Icons.menu,
-        color: Colors.black, 
+        color:Provider.of<ThemeNotifier>(context).isDarkMode == true
+              ? Colors.white
+              : Colors.black, 
       ),
     );
   }
