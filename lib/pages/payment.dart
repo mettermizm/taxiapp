@@ -10,13 +10,47 @@ class Payment extends StatefulWidget {
 }
 
 class _PaymentState extends State<Payment> {
+
+  Future<void> _showDeleteConfirmationDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Kartı Sil'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Bu kartı silmek istediğinizden emin misiniz?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Evet'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Dialog'u kapat
+              },
+            ),
+            TextButton(
+              child: Text('Hayır'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Dialog'u kapat
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0, // Remove the shadow
-          title: Text("Ödeme Yöntemlerim", style: TextStyle(color: Colors.black),),
+          title: Text("Ödeme Yöntemlerim", style: TextStyle(color: Colors.black, fontSize: 20),),
           iconTheme:IconThemeData(color: Colors.amber),
         ),
         body: Padding(
@@ -52,7 +86,7 @@ class _PaymentState extends State<Payment> {
                     Text(
                       'Yeni Kart Ekle',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -67,7 +101,7 @@ class _PaymentState extends State<Payment> {
             Text(
               'Kredi/Banka Kartlarım',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -90,18 +124,26 @@ class _PaymentState extends State<Payment> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Garanti Kartım',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Icon(Icons.edit, color: Colors.amber,),
+                      GestureDetector(
+                        onTap: () {
+                          // Kartı silme işlemi için dialogu göster
+                          _showDeleteConfirmationDialog();
+                        },
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                      ),
                     ],
                   ),
 
@@ -114,7 +156,7 @@ class _PaymentState extends State<Payment> {
                       Text(
                         '123456******1006',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

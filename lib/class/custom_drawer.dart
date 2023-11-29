@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taxiapp/pages/Help.dart';
 import 'package:taxiapp/pages/account.dart';
-
-import 'package:flutter_credit_card/flutter_credit_card.dart';
-
-import 'package:taxiapp/pages/add_credit_card.dart';
 import 'package:taxiapp/pages/past_ride.dart';
+import 'package:taxiapp/pages/payment.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -53,7 +50,7 @@ class CustomDrawer extends StatelessWidget {
                 title: Text('Ödeme Yöntemlerim'),
                 onTap: () {
                   // Navigator.pop(context); // Drawer'ı kapatmak için
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Credit_Card()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Payment()));
                 },
               ),
               ListTile(
@@ -72,8 +69,6 @@ class CustomDrawer extends StatelessWidget {
 
                 },
               ),
-
-              
               ],
             ),
           ),
