@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taxiapp/main.dart';
+import 'package:taxiapp/pages/map_page.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});

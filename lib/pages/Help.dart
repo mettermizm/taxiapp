@@ -10,7 +10,7 @@ class Help extends StatefulWidget {
 enum SingingCharacter { ev1, ev2, is1, is2 }
 
 class _HelpState extends State<Help> {
-  SingingCharacter? _character = SingingCharacter.ev1;
+  //final SingingCharacter? _character = SingingCharacter.ev1;
 
   Map<SingingCharacter, String> adresDetails = {
     SingingCharacter.ev1: 'Çünkü Neden Olmasın. ',

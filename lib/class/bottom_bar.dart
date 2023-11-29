@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:taxiapp/class/theme.dart';
 import 'package:taxiapp/pages/drivers.dart';
 import 'package:taxiapp/pages/nearest_Taxis.dart';
 import 'package:taxiapp/pages/search_area.dart';
@@ -57,15 +58,25 @@ class _BottomBarState extends State<BottomBar> {
                     },
                     child: AbsorbPointer(
                       child: TextField(
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,
+                          fontSize: 16,
+                        ),
                         decoration: InputDecoration(
-                          border: InputBorder.none,
+                          filled: true, // Arka plan rengini etkinleştirmek için
+                          fillColor: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.black : Colors.white,
+                          border: OutlineInputBorder( // Sınır stilini ayarlamak için
+                            borderRadius: BorderRadius.circular(8), // Kenar yuvarlaklığı
+                            borderSide: BorderSide.none, // Sınır çizgisini kaldırmak için
+                          ),
                           hintText: widget.konum ?? 'Nereye Gitmek İstersiniz?',
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),
@@ -89,7 +100,6 @@ class _BottomBarState extends State<BottomBar> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                color: Colors.white,
                 child: Row(
                   children: [
                     Expanded(
@@ -122,7 +132,7 @@ class _BottomBarState extends State<BottomBar> {
                                   child: Text(
                                     "En Yakın Taksiler",
                                     style:
-                                        TextStyle(fontWeight: FontWeight.w600),
+                                        TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black),
                                   ),
                                 ),
                               ),
@@ -175,7 +185,7 @@ class _BottomBarState extends State<BottomBar> {
                                   child: Text(
                                     "Şoförünü Seç",
                                     style:
-                                        TextStyle(fontWeight: FontWeight.w600),
+                                        TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black),
                                   ),
                                 ),
                               ),
@@ -222,8 +232,7 @@ class _BottomBarState extends State<BottomBar> {
                             children: [
                               Text(
                                 "Seçilen Araç:",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 16),
+                                style: TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 16 ),
                               ),
                               Text(
                                 '${Provider.of<DataProvider>(context).selectedCar}',
@@ -232,8 +241,8 @@ class _BottomBarState extends State<BottomBar> {
                               ),
                               Text(
                                 "${Provider.of<DataProvider>(context).selectedPrice} TL/Km.",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              
+                                style: TextStyle(fontWeight: FontWeight.bold,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 16 ),
                               ),
                             ],
                           ),
@@ -244,8 +253,7 @@ class _BottomBarState extends State<BottomBar> {
                           children: [
                             Text(
                               "Ödeme Yöntemleri",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 13),
+                              style: TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 13 ),
                             ),
                             SizedBox(
                               height: 6,
@@ -274,9 +282,7 @@ class _BottomBarState extends State<BottomBar> {
                                       child: Text(
                                     "Nakit",
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600),
+                                    style: TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 12 ),
                                   )),
                                 ),
                                 SizedBox(
@@ -301,8 +307,7 @@ class _BottomBarState extends State<BottomBar> {
                                       child: Text(
                                     "MasterCard",
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 8, color: Colors.red),
+                                    style: TextStyle(fontWeight: FontWeight.w600,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 8 ),
                                   )),
                                 ),
                               ],
@@ -336,7 +341,7 @@ class _BottomBarState extends State<BottomBar> {
                     child: Text(
                       'Taksi Çağır',
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                          TextStyle(fontWeight: FontWeight.w500,color: Provider.of<ThemeNotifier>(context).isDarkMode == true  ? Colors.white : Colors.black, fontSize: 18 ),
                     ),
                   ),
                 ),
