@@ -180,7 +180,10 @@ class _SearchAreaState extends State<SearchArea> {
             ),
             gestureDetector('saat_kulesi'),
             Divider(
-              color: Colors.grey,
+              color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? Colors.amber
+                                  : Colors.grey,
               thickness: 1,
               height: 20,
             ),
@@ -189,7 +192,10 @@ class _SearchAreaState extends State<SearchArea> {
             ),
             gestureDetector('adnan_menderes_havalimani'),
             Divider(
-              color: Colors.grey,
+              color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? Colors.amber
+                                  : Colors.grey,
               thickness: 1,
               height: 20,
             ),
@@ -198,7 +204,10 @@ class _SearchAreaState extends State<SearchArea> {
             ),
             gestureDetector('kültürpark'),
             Divider(
-              color: Colors.grey,
+              color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? Colors.amber
+                                  : Colors.grey,
               thickness: 1,
               height: 20,
             ),
@@ -207,7 +216,10 @@ class _SearchAreaState extends State<SearchArea> {
             ),
             gestureDetector('sagopa_camii'),
             Divider(
-              color: Colors.grey,
+              color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? Colors.amber
+                                  : Colors.grey,
               thickness: 1,
               height: 20,
             ),
@@ -216,7 +228,10 @@ class _SearchAreaState extends State<SearchArea> {
             ),
             gestureDetector('mini_mutfak_cafe'),
             Divider(
-              color: Colors.grey,
+              color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? Colors.amber
+                                  : Colors.grey,
               thickness: 1,
               height: 20,
             ),
@@ -226,7 +241,10 @@ class _SearchAreaState extends State<SearchArea> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.streetview, size: 18, color: Colors.grey),
+                Icon(Icons.streetview, size: 18, color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? Colors.amber
+                                  : Colors.grey,),
                 SizedBox(
                   width: 12,
                 ),
@@ -255,7 +273,10 @@ class _SearchAreaState extends State<SearchArea> {
       },
       child: Row(
         children: [
-          Icon(Icons.fmd_good, size: 18, color: Colors.grey),
+          Icon(Icons.fmd_good, size: 18, color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? Colors.amber
+                                  : Colors.grey,),
           SizedBox(
             width: 12,
           ),

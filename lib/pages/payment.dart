@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:taxiapp/class/app_color.dart';
+import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/pages/add_credit_card.dart';
 
 class Payment extends StatefulWidget {
@@ -50,7 +53,10 @@ class _PaymentState extends State<Payment> {
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0, // Remove the shadow
-          title: Text("Ödeme Yöntemlerim", style: TextStyle(color: Colors.black, fontSize: 20),),
+          title: Text("Ödeme Yöntemlerim", style: TextStyle(color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? Colors.white
+                                  : Colors.black, fontSize: 20),),
           iconTheme:IconThemeData(color: Colors.amber),
         ),
         body: Padding(
@@ -68,7 +74,10 @@ class _PaymentState extends State<Payment> {
               child: Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? AppColors.dark_theme.wigdetColor
+                                  : Colors.white,
                   boxShadow: [
                   BoxShadow(
                       color: Colors.grey.withOpacity(0.7),
@@ -111,7 +120,10 @@ class _PaymentState extends State<Payment> {
             Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? AppColors.dark_theme.wigdetColor
+                                  : Colors.white,
                 boxShadow: [
                 BoxShadow(
                     color: Colors.grey.withOpacity(0.7),
@@ -151,7 +163,7 @@ class _PaymentState extends State<Payment> {
                   
                   Row(
                     children: [
-                      Icon(FontAwesomeIcons.ccMastercard, color: Colors.black, ),
+                      Icon(FontAwesomeIcons.ccMastercard, ),
                       SizedBox(width: 20,),
                       Text(
                         '123456******1006',

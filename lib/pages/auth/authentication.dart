@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:taxiapp/class/model/user_model.dart';
 import 'package:taxiapp/pages/map_page.dart';
 
-const users = const {
+const users = {
   'dribbble@gmail.com': '12345',
   'hunter@gmail.com': 'hunter',
 };
@@ -62,6 +62,9 @@ class AuthenticationPage extends StatelessWidget {
   //                 'https://storage.googleapis.com/thepangeapost/static/login-register-bg.png'),
   //           ),
   //         ),
+
+
+  //<TEXT> 'hello world' </TEXT>
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

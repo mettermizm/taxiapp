@@ -151,40 +151,51 @@ SizedBox(height: 15.0,),
                   true
                   ? AppColors.dark_theme.wigdetColor : Colors.white,
                 ),
-              ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SearchArea()),
-                        );
-                      },
-                        child: TextField(
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                            color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+              ),/*color: Provider.of<ThemeNotifier>(context).isDarkMode ==
                                       true
-                                  ? Colors.white : Colors.black,
-                          ),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              // Sınır stilini ayarlamak için
-                              borderRadius:
-                                  BorderRadius.circular(8), // Kenar yuvarlaklığı
-                              borderSide: BorderSide
-                                  .none, // Sınır çizgisini kaldırmak için
-                            ),
-                            hintText: widget.konum ?? 'Nereye Gitmek İstersiniz?',
-                            //hintStyle: TextStyle(color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,)
-                          ),
+                                  ? Colors.white : Colors.black,*/
+                Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchArea()),
+                      );
+                    },
+                    child: AbsorbPointer(
+                      child: TextField(
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color:
+                              Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? Colors.white
+                                  : Colors.black,
+                          fontSize: 16,
                         ),
+                        decoration: InputDecoration(
+                          //filled: true, // Arka plan rengini etkinleştirmek için
+                          /*fillColor:
+                              Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? Colors.black
+                                  : Colors.white,*/
+                          border: OutlineInputBorder(
+                            // Sınır stilini ayarlamak için
+                            borderRadius:
+                                BorderRadius.circular(8), // Kenar yuvarlaklığı
+                            borderSide: BorderSide
+                                .none, // Sınır çizgisini kaldırmak için
+                          ),
+                          hintText: widget.konum ?? 'Nereye Gitmek İstersiniz?',
+                        ),
+                      ),
                     ),
                   ),
                 ),
+              )
             ],
           ),
         ),
@@ -417,7 +428,7 @@ SizedBox(height: 15.0,),
                                                   context)
                                                   .isDarkMode == true
                                               ? AppColors.dark_theme.wigdetColor
-                                              : Colors.black,
+                                              : Colors.white,
                                       border: Border.all(color: Colors.grey),
                                       borderRadius: BorderRadius.circular(10),
                                       boxShadow: [
@@ -453,7 +464,7 @@ SizedBox(height: 15.0,),
                                                   context)
                                                   .isDarkMode == true
                                               ? AppColors.dark_theme.wigdetColor
-                                              : Colors.black,
+                                              : Colors.white,
                                         border: Border.all(color: Colors.grey),
                                         borderRadius: BorderRadius.circular(10),
                                         boxShadow: [

@@ -40,7 +40,7 @@ class _Credit_CardState extends State<Credit_Card> {
         elevation: 0,
         title: Text(
           "Yeni Kart Ekle",
-          style: TextStyle(color: Colors.black, fontSize: 20),
+          style: TextStyle(fontSize: 20),
         ),
         iconTheme: IconThemeData(color: Colors.amber),
       ),
@@ -119,19 +119,19 @@ class _Credit_CardState extends State<Credit_Card> {
                 ),
                 cardNumberTextStyle: TextStyle(
                   fontSize: 10,
-                  color: Colors.black,
+                  //color: Colors.black,
                 ),
                 cardHolderTextStyle: TextStyle(
                   fontSize: 10,
-                  color: Colors.black,
+                  //color: Colors.black,
                 ),
                 expiryDateTextStyle: TextStyle(
                   fontSize: 10,
-                  color: Colors.black,
+                  //color: Colors.black,
                 ),
                 cvvCodeTextStyle: TextStyle(
                   fontSize: 10,
-                  color: Colors.black,
+                  //color: Colors.black,
                 ),
               ),
             ),
