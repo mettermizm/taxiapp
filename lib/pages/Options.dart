@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taxiapp/class/app_color.dart';
+import 'package:taxiapp/class/model/theme.dart';
 
 class Options extends StatefulWidget {
   const Options({Key? key}) : super(key: key);
@@ -43,7 +46,9 @@ class _OptionsState extends State<Options> {
               height: 40.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
-                color: Color(0xfff2f2f2),
+                color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? AppColors.dark_theme.wigdetColor : Color(0xfff2f2f2),
               ),
               child: IconButton(
                 color: Colors.amber,
@@ -61,7 +66,9 @@ class _OptionsState extends State<Options> {
             height: 300.0,
             child: Container(
               decoration: BoxDecoration(
-                color: Color(0xfff2f2f2),
+                color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? AppColors.dark_theme.wigdetColor : Color(0xfff2f2f2),
                 border: Border(
                   top: BorderSide(
                     color: Colors.black,
@@ -147,7 +154,9 @@ class _OptionsState extends State<Options> {
                           width: 200.0,
                           height: 50.0,
                           decoration: BoxDecoration(
-                            color: Colors.black,
+                            color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? AppColors.dark_theme.backgroundColor : AppColors.dark_theme.backgroundColor,
                             borderRadius: BorderRadius.circular(25),
                           ),
                           child: OutlinedButton(

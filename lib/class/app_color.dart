@@ -13,7 +13,7 @@ class _LightColors {
 }
 
 class _DarkColors {
-  Color get backgroundColor => Color(0x1C1C1C);//#1C1C1C
+  Color get backgroundColor => Color.fromARGB(255, 28, 28, 28);//#1C1C1C
   Color get fontColor => Color.fromARGB(255, 255, 250, 250);//Kullanımda Değil
   Color get iconColor => Color.fromARGB(255, 255, 250, 250);//#FF9800
   Color get wigdetColor => Color.fromARGB(255, 39, 34, 43);

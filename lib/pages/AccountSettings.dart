@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taxiapp/class/theme.dart';
+import 'package:taxiapp/class/app_color.dart';
+import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/pages/auth/authentication.dart';
 
 class AccountSettings extends StatefulWidget {
@@ -14,7 +15,6 @@ class AccountSettings extends StatefulWidget {
 class AccountSettingsState extends State<AccountSettings> {
   bool smsNotification = false;
   bool mailNotification = false;
-  bool darkMode = false;
 
   Future<void> signOut() async {
     try {
@@ -57,13 +57,24 @@ class AccountSettingsState extends State<AccountSettings> {
           SizedBox(
             height: 20.0,
           ),
+          Provider.of<ThemeNotifier>(context).isDarkMode == true ?
             buildNotificationItem(
               Icons.mode_night_outlined, 
-              'Gece Modu', 
-              darkMode, 
+              'Karanlık Tema',
+              true, 
               (value) {
                 setState(() {
-                  darkMode = value;
+                  value;
+                });
+                Provider.of<ThemeNotifier>(context, listen: false).toggleTheme();
+              }
+            ) : buildNotificationItem(
+              Icons.light_mode_outlined, 
+              'Aydınlık Tema',
+              false, 
+              (value) {
+                setState(() {
+                  value;
                 });
                 Provider.of<ThemeNotifier>(context, listen: false).toggleTheme();
               }
@@ -99,7 +110,9 @@ class AccountSettingsState extends State<AccountSettings> {
       height: 60,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Color(0xfff2f2f2),
+          color:Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? AppColors.dark_theme.wigdetColor : Color(0xfff2f2f2),
           boxShadow: [
             BoxShadow(
                 color: Colors.grey.withOpacity(0.7),
@@ -144,7 +157,9 @@ class AccountSettingsState extends State<AccountSettings> {
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: Color(0xfff2f2f2),
+            color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+                                      true
+                                  ? AppColors.dark_theme.wigdetColor : Color(0xfff2f2f2),
             boxShadow: [
               BoxShadow(
                   color: Colors.grey.withOpacity(0.7),

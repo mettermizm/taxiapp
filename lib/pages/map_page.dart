@@ -8,7 +8,7 @@ import 'package:taxiapp/class/app_color.dart';
 import 'package:taxiapp/class/bottom_bar.dart';
 import 'package:taxiapp/class/custom_drawer.dart';
 import 'package:taxiapp/class/custom_icon.dart';
-import 'package:taxiapp/class/theme.dart';
+import 'package:taxiapp/class/model/theme.dart';
 
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {

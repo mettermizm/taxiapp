@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taxiapp/class/theme.dart';
+import 'package:taxiapp/class/model/theme.dart';
 
 class MyCustomIcon extends StatelessWidget {
   @override

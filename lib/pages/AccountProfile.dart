@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taxiapp/class/theme.dart';
+import 'package:taxiapp/class/model/theme.dart';
+import 'package:taxiapp/class/model/user_model.dart';
 import 'package:taxiapp/pages/map_page.dart';
 
 class MyTextFormField extends StatelessWidget {
@@ -39,6 +40,8 @@ class _AccountProfileState extends State<AccountProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final userModel = Provider.of<UserModel>(context);
+    final user = userModel.user;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.amber),
@@ -54,7 +57,7 @@ class _AccountProfileState extends State<AccountProfile> {
               children: [
                 InkWell(
                   onTap: () {
-                    print('CircleAvatar Tıklandı!');
+                    print(user!.email ?? 'hata');
                   },
                   borderRadius: BorderRadius.circular(70),
                   child: CircleAvatar(

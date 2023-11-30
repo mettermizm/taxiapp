@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiapp/class/app_color.dart';
-import 'package:taxiapp/class/theme.dart';
+import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/pages/drivers.dart';
 import 'package:taxiapp/pages/nearest_Taxis.dart';
 import 'package:taxiapp/pages/payment.dart';

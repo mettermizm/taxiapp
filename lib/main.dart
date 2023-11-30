@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiapp/class/model/taxi_people_model.dart';
-import 'package:taxiapp/class/theme.dart';
+import 'package:taxiapp/class/model/theme.dart';
+import 'package:taxiapp/class/model/user_model.dart';
 import 'package:taxiapp/firebase_options.dart';
 import 'package:taxiapp/pages/auth/authentication.dart';
 import 'package:taxiapp/pages/map_page.dart';
@@ -20,6 +21,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => DataProvider()),
         ChangeNotifierProvider(
             create: (context) => ThemeNotifier()), // Tema sağlayıcısını ekleyin
+        ChangeNotifierProvider(create: (context) => UserModel())
       ],
       child: MyApp(
           // home: AuthenticationPage(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiapp/class/model/taxi_people_model.dart';
-import 'package:taxiapp/class/theme.dart';
+import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/pages/search_area.dart';
 
 class Taxis extends StatefulWidget {

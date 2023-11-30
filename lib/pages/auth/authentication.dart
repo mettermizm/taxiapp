@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:taxiapp/class/model/user_model.dart';
 import 'package:taxiapp/pages/map_page.dart';
 
 const users = const {
@@ -52,6 +54,7 @@ class AuthenticationPage extends StatelessWidget {
       return 'Hata: $e';
     });
   }
+
   //  decoration: BoxDecoration(
   //           image: DecorationImage(
   //             fit: BoxFit.cover,
@@ -102,10 +105,16 @@ class AuthenticationPage extends StatelessWidget {
               ),
             ],
             onSubmitAnimationCompleted: () {
-              // Giriş yaptıktan sonra yönlendirme veya işlemler yapabilirsiniz
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => MyHomePage(),
-              ));
+              User? user = FirebaseAuth.instance.currentUser;
+              if (user != null) {
+                // Provider'a kullanıcı bilgilerini aktar
+                Provider.of<UserModel>(context, listen: false).setUser(user);
+
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MyHomePage()));
+              } else {
+                print('Kullanıcı bilgisi alınamadı');
+              }
             },
             onRecoverPassword: _recoverPassword,
           ),
