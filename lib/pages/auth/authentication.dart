@@ -1,5 +1,622 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:taxiapp/class/model/user_model.dart';
+import 'package:taxiapp/pages/map_page.dart';
+import 'package:flutter/services.dart';
+
+class AuthenticationPage extends StatelessWidget {
+  const AuthenticationPage({Key? key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Status bar rengini değiştirmek için SystemChrome kullanıyoruz.
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.transparent,
+    ));
+
+    return MaterialApp(
+      title: 'PROJECT: TAXI',
+      theme: ThemeData(
+        primarySwatch: Colors.yellow,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.white,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.yellow[700], // Buton rengi
+            foregroundColor: Colors.black, // Buton üzerindeki yazı rengi
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            primary: Colors.black87, // Text buton rengi
+          ),
+        ),
+      ),
+      home: LoginPage(),
+    );
+  }
+}
+
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool _isButtonChecked = false;
+  bool _isChecked = false;
+  int _currentIndex = 0;
+
+  TextEditingController nameSurnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController emailControllerForLogin = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordControllerForLogin = TextEditingController();
+  TextEditingController cinsiyetController = TextEditingController();
+  TextEditingController yasController = TextEditingController();
+  TextEditingController imgController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+      Future<String?> _authUser(String email, String password) {
+    debugPrint('Name: ${email}, Password: ${password}');
+    return FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        )
+        .then((_) => null)
+        .catchError((e) {
+      debugPrint('Hata: $e');
+      return 'Giriş yapılamadı: $e';
+    });
+  }
+
+  Future<String?> _signupUser(List<dynamic> data) {
+    debugPrint('Signup Name: ${data[0]}, Password: ${data[1]}');
+    return FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+          email: data[0],
+          password: data[1],
+        )
+        .then((_) => null)
+        .catchError((e) {
+      debugPrint('Hata: $e');
+      return 'Hesap oluşturulamadı: $e';
+    });
+  }
+
+  Future<String> _recoverPassword(String name) {
+    debugPrint('Name: $name');
+    return FirebaseAuth.instance
+        .sendPasswordResetEmail(email: name)
+        .then((_) => 'Şifre sıfırlama maili gönderildi')
+        .catchError((e) {
+      debugPrint('Hata: $e');
+      return 'Hata: $e';
+    });
+  }
+
+  User? user = FirebaseAuth.instance.currentUser;
+              if (user != null) {
+                // Provider'a kullanıcı bilgilerini aktar
+                Provider.of<UserModel>(context, listen: false).setUser(user);
+
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MyHomePage()));
+              } else {
+                print('Kullanıcı bilgisi alınamadı');
+              }
+
+
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            // Background image and logo.
+            Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                // Resim için Container
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/taksi.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                // Gradient için Container
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.white.withOpacity(0.0), Colors.white],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            // Form fields.
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(
+                      50), // Burada 10 piksel yuvarlaklık veriliyor.
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(40, 70, 40, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment
+                            .spaceEvenly, // Butonlar arası eşit boşluk bırakır.
+                        children: <Widget>[
+                          Expanded(
+                            child: AnimatedContainer(
+                              duration: Duration(
+                                  //tprsoft@gmail.com
+                                  milliseconds: 300), // Animasyon süresi
+                              decoration: boxDecoration(),
+                              child: TextButton(
+                                child: Text('Kayıt Ol'),
+                                onPressed: () {
+                                  setState(() {
+                                    _isButtonChecked = false;
+                                  });
+                                },
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.black),
+                                  overlayColor:
+                                      MaterialStateProperty.all<Color>(Colors
+                                          .transparent), // Tıklama efektini kaldır
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 20.0),
+                          Expanded(
+                            child: AnimatedContainer(
+                              duration: Duration(
+                                  milliseconds: 400), // Animasyon süresi
+                              decoration: BoxDecoration(
+                                color: _isButtonChecked
+                                    ? Color.fromARGB(255, 255, 191, 0)
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(80.0),
+                              ),
+
+                              child: TextButton(
+                                child: Text('Giriş Yap'),
+                                onPressed: () {
+                                  setState(() {
+                                    _isButtonChecked = true;
+                                  });
+                                },
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.black),
+                                  overlayColor:
+                                      MaterialStateProperty.all<Color>(Colors
+                                          .transparent), // Tıklama efektini kaldır
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      _currentIndex == 0 && _isButtonChecked == false
+                          ? Column(
+                              children: [
+                                SizedBox(height: 16.0),
+                                // Name field.
+                                TextFormField(
+                                  controller: nameSurnameController,
+                                  decoration: InputDecoration(
+                                    labelText: 'İsim Soyisim',
+                                    //labelStyle: TextStyle(color: Colors.black),
+                                    prefixIcon: Icon(Icons.person),
+                                    enabledBorder: OutlineInputBorder(
+                                      // Etkin olmayan durum için kenarlık
+                                      borderSide: BorderSide(
+                                          color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      // Odaklanıldığında kenarlık
+                                      borderSide: BorderSide(
+                                          color: Colors.yellow, width: 5),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 16.0),
+                                // Email field.
+                                TextFormField(
+                                  controller: emailController,
+                                  decoration: InputDecoration(
+                                    labelText: 'E-Posta',
+                                    prefixIcon: Icon(Icons.email),
+                                    enabledBorder: OutlineInputBorder(
+                                      // Etkin olmayan durum için kenarlık
+                                      borderSide: BorderSide(
+                                          color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      // Odaklanıldığında kenarlık
+                                      borderSide: BorderSide(
+                                          color: Colors.yellow, width: 5),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                ),
+                                SizedBox(height: 16.0),
+                                // Password field.
+                                TextFormField(
+                                  controller: passwordController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Şifre',
+                                    prefixIcon: Icon(Icons.lock),
+                                    enabledBorder: OutlineInputBorder(
+                                      // Etkin olmayan durum için kenarlık
+                                      borderSide: BorderSide(
+                                          color: Colors.grey, width: 2.0),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      // Odaklanıldığında kenarlık
+                                      borderSide: BorderSide(
+                                          color: Colors.yellow, width: 5),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    ),
+                                  ),
+                                  obscureText: true,
+                                ),
+                                SizedBox(height: 24.0),
+                              ],
+                            )
+                          : _currentIndex == 1 && _isButtonChecked == false
+                              ? Column(
+                                  children: [
+                                    SizedBox(height: 16.0),
+                                    // Name field.
+                                    TextFormField(
+                                      controller: cinsiyetController,
+                                      decoration: InputDecoration(
+                                        labelText: 'Cinsiyet',
+                                        //labelStyle: TextStyle(color: Colors.black),
+                                        prefixIcon: Icon(Icons.person),
+                                        enabledBorder: OutlineInputBorder(
+                                          // Etkin olmayan durum için kenarlık
+                                          borderSide: BorderSide(
+                                              color: Colors.grey, width: 2.0),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          // Odaklanıldığında kenarlık
+                                          borderSide: BorderSide(
+                                              color: Colors.yellow, width: 5),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 16.0),
+                                    // Email field.
+                                    TextFormField(
+                                      controller: yasController,
+                                      decoration: InputDecoration(
+                                        labelText: 'Yaş',
+                                        prefixIcon: Icon(Icons.email),
+                                        enabledBorder: OutlineInputBorder(
+                                          // Etkin olmayan durum için kenarlık
+                                          borderSide: BorderSide(
+                                              color: Colors.grey, width: 2.0),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          // Odaklanıldığında kenarlık
+                                          borderSide: BorderSide(
+                                              color: Colors.yellow, width: 5),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
+                                        ),
+                                      ),
+                                      keyboardType: TextInputType.emailAddress,
+                                    ),
+                                    SizedBox(height: 16.0),
+                                    // Password field.
+                                    TextFormField(
+                                      controller: imgController,
+                                      decoration: InputDecoration(
+                                        labelText: 'Profil Foto',
+                                        prefixIcon: Icon(Icons.lock),
+                                        enabledBorder: OutlineInputBorder(
+                                          // Etkin olmayan durum için kenarlık
+                                          borderSide: BorderSide(
+                                              color: Colors.grey, width: 2.0),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
+                                        ),
+                                        focusedBorder: UnderlineInputBorder(
+                                          // Odaklanıldığında kenarlık
+                                          borderSide: BorderSide(
+                                              color: Colors.yellow, width: 5),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
+                                        ),
+                                      ),
+                                      obscureText: true,
+                                    ),
+                                    SizedBox(height: 24.0),
+                                  ],
+                                )
+                              : _isButtonChecked == true
+                                  ? Column(
+                                      children: [
+                                        SizedBox(height: 16.0),
+                                        // Name field.
+                                        TextFormField(
+                                          controller: emailControllerForLogin,
+                                          decoration: InputDecoration(
+                                            labelText: 'E-mail',
+                                            //labelStyle: TextStyle(color: Colors.black),
+                                            prefixIcon: Icon(Icons.email),
+                                            enabledBorder: OutlineInputBorder(
+                                              // Etkin olmayan durum için kenarlık
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 2.0),
+                                              borderRadius:
+                                                  BorderRadius.circular(25.0),
+                                            ),
+                                            focusedBorder: UnderlineInputBorder(
+                                              // Odaklanıldığında kenarlık
+                                              borderSide: BorderSide(
+                                                  color: Colors.yellow,
+                                                  width: 5),
+                                              borderRadius:
+                                                  BorderRadius.circular(25.0),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 16.0),
+                                        // Email field.
+                                        TextFormField(
+                                          controller:
+                                              passwordControllerForLogin,
+                                          decoration: InputDecoration(
+                                            labelText: 'Şifre',
+                                            prefixIcon:
+                                                Icon(Icons.password_outlined),
+                                            enabledBorder: OutlineInputBorder(
+                                              // Etkin olmayan durum için kenarlık
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey,
+                                                  width: 2.0),
+                                              borderRadius:
+                                                  BorderRadius.circular(25.0),
+                                            ),
+                                            focusedBorder: UnderlineInputBorder(
+                                              // Odaklanıldığında kenarlık
+                                              borderSide: BorderSide(
+                                                  color: Colors.yellow,
+                                                  width: 5),
+                                              borderRadius:
+                                                  BorderRadius.circular(25.0),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 24.0),
+                                      ],
+                                    )
+                                  : Container(),
+                      // Terms and conditions.
+                      _currentIndex == 0 || _isButtonChecked == true
+                          ? Container()
+                          : CheckboxListTile(
+                              title: Text('Okudum ve kabul ediyorum.'),
+                              value: _isChecked,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  _isChecked = value!;
+                                });
+                              },
+                              controlAffinity: ListTileControlAffinity.leading,
+                              activeColor: Colors
+                                  .amber, // Seçili olduğunda gösterilecek renk
+                            ),
+                      // Register button.
+                      Container(
+                        child: ElevatedButton(
+                          child: _currentIndex == 1 && _isButtonChecked == false
+                              ? Text('Kayıt Ol')
+                              : _currentIndex > 2
+                                  ? Text('Sınır Aşıldı')
+                                  : _isButtonChecked == true
+                                      ? Text('Giriş Yap')
+                                      : Text('Devam Et'),
+                          onPressed: () {
+                            _isButtonChecked == false?
+                            setState(() {
+                              _currentIndex == 0
+                                  ? null
+                                  : _isChecked == true
+                                      ?print('Buraya Kayıt Ol Gelecek')
+                                      : print('geçiş Hatali');
+                              _currentIndex = _currentIndex + 1;
+                            }) : _isButtonChecked == false ? //_authUser(emailController.text, passwordController.text)
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage())):
+                            Text('data');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(
+                              fontSize: 20,
+                            ),
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 15.0), // Buton yüksekliği.
+                            // Renkler ve diğer stil ayarları.
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0), // Butonlar arası boşluk.
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            _currentIndex > 0 && _isButtonChecked == false ? Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                    child: GestureDetector(
+                      onTap: () {
+                      setState(() {
+                        _currentIndex = 0;
+                      });
+                      },
+                      child: Icon(
+                        Icons.arrow_back,
+                        size: 32.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+            ) : Container(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  BoxDecoration boxDecoration() {
+    return BoxDecoration(
+      color: _isButtonChecked
+          ? Colors.transparent
+          : Color.fromARGB(255, 255, 191, 0),
+      borderRadius: BorderRadius.circular(80.0),
+    );
+  }
+}
+
+
+/*
+_currentIndex == 2 ? Column(
+                        children: [
+                          SizedBox(height: 16.0),
+                          // Name field.
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'İsim Soyisim',
+                              //labelStyle: TextStyle(color: Colors.black),
+                              prefixIcon: Icon(Icons.person),
+                              enabledBorder: OutlineInputBorder(
+                                // Etkin olmayan durum için kenarlık
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 2.0),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                // Odaklanıldığında kenarlık
+                                borderSide:
+                                    BorderSide(color: Colors.yellow, width: 5),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 16.0),
+                          // Email field.
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'E-Posta',
+                              prefixIcon: Icon(Icons.email),
+                              enabledBorder: OutlineInputBorder(
+                                // Etkin olmayan durum için kenarlık
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 2.0),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                // Odaklanıldığında kenarlık
+                                borderSide:
+                                    BorderSide(color: Colors.yellow, width: 5),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          SizedBox(height: 16.0),
+                          // Password field.
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Şifre',
+                              prefixIcon: Icon(Icons.lock),
+                              enabledBorder: OutlineInputBorder(
+                                // Etkin olmayan durum için kenarlık
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 2.0),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                // Odaklanıldığında kenarlık
+                                borderSide:
+                                    BorderSide(color: Colors.yellow, width: 5),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                            ),
+                            obscureText: true,
+                          ),
+                          SizedBox(height: 24.0),
+                        ],
+                      ) : 
+ */
+
+
+
+
+
+
+
+
+
+/*
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -126,3 +743,4 @@ class AuthenticationPage extends StatelessWidget {
     );
   }
 }
+*/

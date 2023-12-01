@@ -176,12 +176,6 @@ SizedBox(height: 15.0,),
                           fontSize: 16,
                         ),
                         decoration: InputDecoration(
-                          //filled: true, // Arka plan rengini etkinleştirmek için
-                          /*fillColor:
-                              Provider.of<ThemeNotifier>(context).isDarkMode ==
-                                      true
-                                  ? Colors.black
-                                  : Colors.white,*/
                           border: OutlineInputBorder(
                             // Sınır stilini ayarlamak için
                             borderRadius:
