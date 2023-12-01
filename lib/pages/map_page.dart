@@ -4,7 +4,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
-import 'package:taxiapp/class/app_color.dart';
 import 'package:taxiapp/class/bottom_bar.dart';
 import 'package:taxiapp/class/custom_drawer.dart';
 import 'package:taxiapp/class/custom_icon.dart';
