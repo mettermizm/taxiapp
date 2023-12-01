@@ -60,14 +60,14 @@ class CustomDrawer extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Payment()));
                 },
               ),
-              ListTile(
+              /*ListTile(
                 leading: Icon(Icons.calculate),
                 title: Text('Ücret Hesaplama'),
                 onTap: () {
                   // Navigator.pop(context); // Drawer'ı kapatmak için
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
                 },
-              ),
+              ),*/
               ListTile(
                 leading: Icon(Icons.help),
                 title: Text('Yardım'),

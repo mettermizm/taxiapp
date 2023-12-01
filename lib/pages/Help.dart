@@ -82,6 +82,7 @@ class _HelpState extends State<Help> {
 
 void main() {
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: Help(),
   ));
 }

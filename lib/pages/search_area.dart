@@ -42,8 +42,8 @@ class _SearchAreaState extends State<SearchArea> {
       'lat': 38.42869959642496,
       'lang': 27.14531281039571
     },
-    'sagopa_camii': {
-      'name': 'Sagopa Kajmer Camii',
+    'camii': {
+      'name': 'Camii',
       'lat': 38.415882284869056,
       'lang': 27.181388568065596
     },
@@ -214,7 +214,7 @@ class _SearchAreaState extends State<SearchArea> {
             SizedBox(
               height: 24,
             ),
-            gestureDetector('sagopa_camii'),
+            gestureDetector('camii'),
             Divider(
               color: Provider.of<ThemeNotifier>(context).isDarkMode ==
                                       true

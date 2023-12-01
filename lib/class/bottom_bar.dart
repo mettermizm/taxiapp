@@ -36,34 +36,57 @@ class _BottomBarState extends State<BottomBar> {
               children: <Widget>[
                 Text(
                   widget.konum ?? 'Nereye Gitmek İstersiniz?',
-                  style: TextStyle(fontSize: 16, color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color:
+                        Provider.of<ThemeNotifier>(context).isDarkMode == true
+                            ? Colors.white
+                            : Colors.black,
+                  ),
                 ),
                 SizedBox(height: 20),
                 Text(
                   "Seçilen Araç:",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,
+                    color:
+                        Provider.of<ThemeNotifier>(context).isDarkMode == true
+                            ? Colors.white
+                            : Colors.black,
                     fontSize: 16,
                   ),
                 ),
-SizedBox(height: 15.0,),
-
+                SizedBox(
+                  height: 15.0,
+                ),
                 Text(
                   '${Provider.of<DataProvider>(context).selectedCar}',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,),
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color:
+                        Provider.of<ThemeNotifier>(context).isDarkMode == true
+                            ? Colors.white
+                            : Colors.black,
+                  ),
                 ),
-SizedBox(height: 15.0,),
-
+                SizedBox(
+                  height: 15.0,
+                ),
                 Text(
                   "${Provider.of<DataProvider>(context).selectedPrice} TL/Km.",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,
+                    color:
+                        Provider.of<ThemeNotifier>(context).isDarkMode == true
+                            ? Colors.white
+                            : Colors.black,
                     fontSize: 16,
                   ),
                 ),
-SizedBox(height: 15.0,),
+                SizedBox(
+                  height: 15.0,
+                ),
                 Text('Taksi Çağırma İşlemini Onaylıyor Musunuz ?'),
               ],
             ),
@@ -123,9 +146,9 @@ SizedBox(height: 15.0,),
         Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(32),
-              color: Provider.of<ThemeNotifier>(context).isDarkMode ==
-                true
-                ? AppColors.dark_theme.wigdetColor : Colors.white,
+              color: Provider.of<ThemeNotifier>(context).isDarkMode == true
+                  ? AppColors.dark_theme.wigdetColor
+                  : Colors.white,
               boxShadow: [
                 BoxShadow(
                     color: Colors.grey.withOpacity(0.7),
@@ -141,20 +164,21 @@ SizedBox(height: 15.0,),
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Provider.of<ThemeNotifier>(context).isDarkMode ==
-                  true
-                  ? Colors.amber : Colors.amber,
+                  color: Provider.of<ThemeNotifier>(context).isDarkMode == true
+                      ? Colors.amber
+                      : Colors.amber,
                 ),
                 child: Icon(
                   Icons.search,
-                  color: Provider.of<ThemeNotifier>(context).isDarkMode ==
-                  true
-                  ? AppColors.dark_theme.wigdetColor : Colors.white,
+                  color: Provider.of<ThemeNotifier>(context).isDarkMode == true
+                      ? AppColors.dark_theme.wigdetColor
+                      : Colors.white,
                 ),
-              ),/*color: Provider.of<ThemeNotifier>(context).isDarkMode ==
+              ),
+              /*color: Provider.of<ThemeNotifier>(context).isDarkMode ==
                                       true
                                   ? Colors.white : Colors.black,*/
-                Expanded(
+              Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: GestureDetector(
@@ -198,9 +222,9 @@ SizedBox(height: 15.0,),
         ),
         Container(
           decoration: BoxDecoration(
-              color: Provider.of<ThemeNotifier>(context).isDarkMode ==
-                                      true
-                                  ? AppColors.dark_theme.wigdetColor : Colors.white,
+              color: Provider.of<ThemeNotifier>(context).isDarkMode == true
+                  ? AppColors.dark_theme.wigdetColor
+                  : Colors.white,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(36), topRight: Radius.circular(36)),
               boxShadow: [
@@ -319,10 +343,10 @@ SizedBox(height: 15.0,),
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: FractionalTranslation(
-                                  translation: Offset(-0.3, 0.0),
+                                  translation: Offset(-0.2, 0.1),
                                   child: Image.asset(
-                                    "assets/people.png",
-                                    width: 49,
+                                    "assets/adamlar.png",
+                                    width: 70,
                                     height: 100,
                                   ),
                                 ),
@@ -339,11 +363,10 @@ SizedBox(height: 15.0,),
               Container(
                   height: 100,
                   decoration: BoxDecoration(
-                      color:  Provider.of<ThemeNotifier>(context)
-                                                        .isDarkMode ==
-                                                    true
-                                                ? AppColors.dark_theme.wigdetColor
-                                                : Colors.white,
+                      color:
+                          Provider.of<ThemeNotifier>(context).isDarkMode == true
+                              ? AppColors.dark_theme.wigdetColor
+                              : Colors.white,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
@@ -374,7 +397,14 @@ SizedBox(height: 15.0,),
                             Text(
                               '${Provider.of<DataProvider>(context).selectedCar}',
                               style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold, color: Provider.of<ThemeNotifier>(context).isDarkMode == true ? Colors.white : Colors.black,),
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Provider.of<ThemeNotifier>(context)
+                                            .isDarkMode ==
+                                        true
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
                             ),
                             Text(
                               "${Provider.of<DataProvider>(context).selectedPrice} TL/Km.",
@@ -417,10 +447,11 @@ SizedBox(height: 15.0,),
                                     width: 48,
                                     height: 28,
                                     decoration: BoxDecoration(
-                                      color: isCashSelected ? Colors.green
-                                          : Provider.of<ThemeNotifier>(
-                                                  context)
-                                                  .isDarkMode == true
+                                      color: isCashSelected
+                                          ? Colors.green
+                                          : Provider.of<ThemeNotifier>(context)
+                                                      .isDarkMode ==
+                                                  true
                                               ? AppColors.dark_theme.wigdetColor
                                               : Colors.white,
                                       border: Border.all(color: Colors.grey),
@@ -448,17 +479,24 @@ SizedBox(height: 15.0,),
                                               : Colors.black,
                                           fontSize: 12),
                                     )),
-                                  ),),
-                                  SizedBox(width: 12),
-                                  Container(
+                                  ),
+                                ),
+                                SizedBox(width: 12),
+                                GestureDetector(
+                                  onTap: () {
+                                    selectMasterCard();
+                                  },
+                                  child: Container(
                                     width: 48,
                                     height: 28,
                                     decoration: BoxDecoration(
-                                        color: Provider.of<ThemeNotifier>(
-                                                  context)
-                                                  .isDarkMode == true
-                                              ? AppColors.dark_theme.wigdetColor
-                                              : Colors.white,
+                                        color:
+                                            Provider.of<ThemeNotifier>(context)
+                                                        .isDarkMode ==
+                                                    true
+                                                ? AppColors
+                                                    .dark_theme.wigdetColor
+                                                : Colors.white,
                                         border: Border.all(color: Colors.grey),
                                         borderRadius: BorderRadius.circular(10),
                                         boxShadow: [
@@ -470,18 +508,8 @@ SizedBox(height: 15.0,),
                                               offset: Offset(0, 1))
                                         ]),
                                     child: Center(
-                                      child: Text(
-                                      "MasterCard",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: Provider.of<ThemeNotifier>(
-                                                  context)
-                                                  .isDarkMode == true
-                                              ? Colors.white
-                                              : Colors.black,
-                                          fontSize: 8),
-                                    )
+                                        child: Image.network(
+                                            "https://download.logo.wine/logo/Mastercard/Mastercard-Logo.wine.png")),
                                   ),
                                 ),
                               ],

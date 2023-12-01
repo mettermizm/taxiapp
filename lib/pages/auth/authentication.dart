@@ -63,18 +63,18 @@ class AuthenticationPage extends StatelessWidget {
   //           ),
   //         ),
 
-
   //<TEXT> 'hello world' </TEXT>
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: SingleChildScrollView(
         child: Container(
           height:
               MediaQuery.of(context).size.height - kBottomNavigationBarHeight,
           child: FlutterLogin(
-            title: 'TaxiApp',
-            logo: AssetImage('./assets/car.png'),
+            theme: LoginTheme(pageColorDark: Colors.amber, pageColorLight: Colors.amber, primaryColor: Colors.black,  buttonStyle: TextStyle(color: Colors.white)),
+            logo: AssetImage('./assets/project_taxi_son.png'),
             onLogin: _authUser,
             onSignup: _signupUser,
             loginProviders: <LoginProvider>[
