@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:taxiapp/class/model/payment_model.dart';
 import 'package:taxiapp/class/model/taxi_people_model.dart';
 import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/class/model/user_model.dart';
@@ -18,6 +19,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => PaymentProvider()),
         ChangeNotifierProvider(create: (context) => DataProvider()),
         ChangeNotifierProvider(
             create: (context) => ThemeNotifier()), // Tema sağlayıcısını ekleyin
