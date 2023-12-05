@@ -20,7 +20,7 @@ class AccountSettingsState extends State<AccountSettings> {
     try {
       await FirebaseAuth.instance.signOut();
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => AuthenticationPage(),
+        builder: (context) => LoginPage(),
       ));
     } catch (e) {
       print('Çıkış yapılamadı: $e');

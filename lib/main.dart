@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
             // İzin verildiyse veya reddedildiyse, duruma göre bir sayfa oluşturun.
             final bool hasPermission = snapshot.data ?? false;
             // return hasPermission ? MyHomePage() : ErrorWidget();
-            return hasPermission ? AuthenticationPage() : ErrorWidget();
+            return hasPermission ? LoginPage() : ErrorWidget();
           }
         },
       ),

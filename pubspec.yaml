@@ -50,6 +50,7 @@ dependencies:
   firebase_core: ^2.24.0
   cloud_firestore: ^4.13.3
   flutter_login: ^4.2.1
+  image_picker: ^1.0.4
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +81,9 @@ flutter:
     - assets/dtx.jpeg
     - assets/project_taxi_son.png
     - assets/adamlar.png
+    - assets/taksi.jpg
+    - assets/profil.png
+    
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
