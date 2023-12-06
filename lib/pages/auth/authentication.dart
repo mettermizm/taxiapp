@@ -7,8 +7,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:taxiapp/class/app_color.dart';
+import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/class/model/user_model.dart';
 import 'package:taxiapp/pages/map_page.dart';
+
 /*
 void main() {
   runApp(AuthenticationPage());
@@ -222,6 +225,14 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
 
+    void _onClickButton() {
+      setState(() {
+        _currentIndex++;
+      });
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+    }
+
     @override
     void initState() {
       super.initState();
@@ -266,7 +277,9 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Provider.of<ThemeNotifier>(context).isDarkMode == true
+                      ? AppColors.dark_theme.wigdetColor
+                      : Colors.white,
                   borderRadius: BorderRadius.circular(
                       50), // Burada 10 piksel yuvarlaklık veriliyor.
                   boxShadow: [
@@ -303,7 +316,9 @@ class _LoginPageState extends State<LoginPage> {
                                 style: ButtonStyle(
                                   foregroundColor:
                                       MaterialStateProperty.all<Color>(
-                                          Colors.black),
+                                          Provider.of<ThemeNotifier>(context).isDarkMode == true
+                                        ? Colors.white
+                                        : Colors.black),
                                   overlayColor:
                                       MaterialStateProperty.all<Color>(Colors
                                           .transparent), // Tıklama efektini kaldır
@@ -333,7 +348,8 @@ class _LoginPageState extends State<LoginPage> {
                                 style: ButtonStyle(
                                   foregroundColor:
                                       MaterialStateProperty.all<Color>(
-                                          Colors.black),
+                                          Provider.of<ThemeNotifier>(context).isDarkMode == true
+                                        ? Colors.white : Colors.black),
                                   overlayColor:
                                       MaterialStateProperty.all<Color>(Colors
                                           .transparent), // Tıklama efektini kaldır
@@ -587,26 +603,21 @@ class _LoginPageState extends State<LoginPage> {
                         child: ElevatedButton(
                           child: _currentIndex == 1 && _isButtonChecked == false
                               ? Text('Kayıt Ol')
-                              : _currentIndex > 2
-                                  ? Text('Sınır Aşıldı')
-                                  : _isButtonChecked == true
+                              : _isButtonChecked == true
                                       ? Text('Giriş Yap')
                                       : Text('Devam Et'),
                           onPressed: () {
-                            _isButtonChecked == false
-                                ? setState(() {
-                                    _currentIndex == 0
-                                        ? null
-                                        : _isChecked == true
-                                            ? print(
-                                                'hello') //_authUser('mehmetfidan889@gmail.com','123456')
-                                            : print('geçiş Hatali');
-                                    _currentIndex = _currentIndex + 1;
-                                  })
+                              _currentIndex == 0 ? 
+                              setState(() {
+                                _currentIndex++;
+                              }) :
+                            _currentIndex == 1 && _isButtonChecked == false
+                                ? _onClickButton()
                                 : _authUser(emailControllerForLogin.text,
                                     passwordControllerForLogin.text);
                           },
                           style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.yellow[700], // Buton rengi
                             textStyle: TextStyle(
                               fontSize: 20,
                             ),
@@ -639,7 +650,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Icon(
                           Icons.arrow_back,
                           size: 32.0,
-                          color: Colors.black,
+                          //color: Colors.black,
                         ),
                       ),
                     ),
@@ -671,15 +682,11 @@ class _LoginPageState extends State<LoginPage> {
         textFormField(
           controller2,
           text2,
-          inputType:TextInputType.emailAddress, 
+          inputType: TextInputType.emailAddress,
         ),
         SizedBox(height: 16.0),
         // Password field.
-        textFormField(
-          controller3,
-          text3,
-          obsure: true 
-        ),
+        textFormField(controller3, text3, obsure: true),
         SizedBox(height: 24.0),
       ],
     );
@@ -712,7 +719,10 @@ class MyTextFormField extends StatelessWidget {
   final bool? obscure;
 
   MyTextFormField(
-      {required this.controller, required this.text, required this.type, this.obscure});
+      {required this.controller,
+      required this.text,
+      required this.type,
+      this.obscure});
 
   @override
   Widget build(BuildContext context) {
