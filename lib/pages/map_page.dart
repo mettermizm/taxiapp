@@ -1,113 +1,126 @@
 // ignore: must_be_immutable
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiapp/class/bottom_bar.dart';
 import 'package:taxiapp/class/custom_drawer.dart';
 import 'package:taxiapp/class/custom_icon.dart';
 import 'package:taxiapp/class/model/theme.dart';
 
-// ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   Map<String, dynamic>? baslangic;
   Map<String, dynamic>? marker;
+
   MyHomePage({super.key, this.baslangic, this.marker});
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
- 
+
 class _MyHomePageState extends State<MyHomePage> {
+  late Future<Uint8List> iconBytes;
+  late double distance; // double türünde bir değişken tanımlıyoruz
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool showOtherWidgets = true;
- 
+
+  @override
+  void initState() {
+    super.initState();
+    iconBytes = loadIconBytes('assets/car.png');
+
+    // calculateDistance fonksiyonunu burada async olarak çağırıyoruz ve sonucunu bekliyoruz
+    calculateDistance(
+      LatLng(38.41170946334618, 27.128457612315454),
+      LatLng(widget.marker?['lat'] ?? 37.7749, widget.marker?['lang'] ?? -122.4194),
+    ).then((result) {
+      setState(() {
+        distance = result; // Sonucu distance değişkenine atıyoruz
+      });
+      print('İki Marker arasındaki mesafe: $distance metre');
+    });
+  }
+  // İki nokta arasındaki mesafeyi hesaplar
+  Future<double> calculateDistance(LatLng start, LatLng end) async {
+    final Position startPosition = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+
+    final double distanceInMeters = await Geolocator.distanceBetween(
+      startPosition.latitude,
+      startPosition.longitude,
+      end.latitude,
+      end.longitude,
+    );
+
+    return distanceInMeters;
+  }
+
+  Future<Uint8List> loadIconBytes(String assetPath) async {
+    final ByteData data = await rootBundle.load(assetPath);
+    return data.buffer.asUint8List();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       body: Stack(
         children: [
-          FlutterMap(
-            options: MapOptions(
-              initialCenter: LatLng(
-                  widget.baslangic?['lat'] ?? 38.475370256050795,
-                  widget.baslangic?['lang'] ?? 27.03760666748706),
-              initialZoom: 14,
-              onPositionChanged: (tapPosition, point) => {
-                setState(() {
-                  showOtherWidgets = false;
-                })
-              },
-              onMapEvent: (p0) => {
-                setState(() {
-                  showOtherWidgets = true;
-                })
-              },
-            ),
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.app',
-              ),
-              MarkerLayer(
-                markers: [
+          FutureBuilder<Uint8List>(
+            future: iconBytes,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator(); // İkon yüklenene kadar bekleme göstergesi
+              }
+
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
+
+              final Uint8List iconData = snapshot.data!;
+
+              return GoogleMap(
+                onCameraMove: (p0) => {
+                  setState(() {
+                    showOtherWidgets = false;
+                  })
+                },
+                onCameraIdle: () => {
+                  setState(() {
+                    showOtherWidgets = true;
+                  })
+                },
+                mapType: MapType.normal,
+                initialCameraPosition: CameraPosition(
+                    target: LatLng(widget.marker?['lat'] ?? 38.41465813848041,
+                        widget.marker?['lang'] ?? 27.13873886099405),
+                    zoom: 14.0),
+                markers: Set<Marker>.of([
                   Marker(
-                    point: LatLng(38.475370256050795, 27.03760666748706),
-                    width: 100,
-                    height: 100,
-                    child: Icon(
-                      Icons.location_pin,
-                      color: Provider.of<ThemeNotifier>(context)
-                                                        .isDarkMode ==
-                                                    true
-                                                ? Colors.black
-                                                : Colors.black,
+                    markerId: MarkerId('marker_1'),
+                    position: LatLng(38.41465813848041, 27.13873886099405),
+                    infoWindow: InfoWindow(
+                      title: 'San Francisco',
+                      snippet: 'Example Marker',
                     ),
                   ),
                   Marker(
-                    point: LatLng(widget.marker?['lat'] ?? 38.475370256050795,
-                        widget.marker?['lang'] ?? 27.03760666748706),
-                    width: 100,
-                    height: 100,
-                    child: Icon(
-                      Icons.location_pin,
-                      color: Provider.of<ThemeNotifier>(context)
-                                                        .isDarkMode ==
-                                                    true
-                                                ? Colors.black
-                                                : Colors.black,
+                    markerId: MarkerId('marker_2'),
+                    position: LatLng(widget.marker?['lat'] ?? 37.7749,
+                        widget.marker?['lang'] ?? -122.4194),
+                    icon: BitmapDescriptor.fromBytes(
+                        iconData), // İkon baytlarını kullanın
+                    infoWindow: InfoWindow(
+                      title: widget.marker?['name'] ?? "Undefined",
+                      snippet: "Seçilen Konum",
                     ),
-                  ),
-                  Marker(
-                    point: LatLng(38.47943573660891, 27.053900460537022),
-                    width: 90,
-                    height: 90,
-                    child: Icon(
-                      FontAwesomeIcons.taxi,
-                      color: Provider.of<ThemeNotifier>(context)
-                                                        .isDarkMode ==
-                                                    true
-                                                ? Colors.black
-                                                : Colors.black,
-                    ),
-                  ),
-                  Marker(
-                    point: LatLng(38.493657241651526, 27.045530682513103),
-                    width: 90,
-                    height: 190,
-                    child: Icon(
-                      FontAwesomeIcons.taxi,
-                      color: Provider.of<ThemeNotifier>(context)
-                                                        .isDarkMode ==
-                                                    true
-                                                ? Colors.black
-                                                : Colors.black,
-                    ),
-                  ),
-                ],
-              )
-            ],
+                  )
+                ]),
+              );
+            },
           ),
           AnimatedPositioned(
             duration: Duration(milliseconds: 100),
@@ -126,11 +139,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
                 iconTheme: IconThemeData(
-                  color:Provider.of<ThemeNotifier>(context)
-                                                        .isDarkMode ==
-                                                    true
-                                                ? Colors.black
-                                                : Colors.black,
+                  color: Provider.of<ThemeNotifier>(context).isDarkMode == true
+                      ? Colors.black
+                      : Colors.black,
                   size: 20.0,
                   opacity: 1,
                 ),

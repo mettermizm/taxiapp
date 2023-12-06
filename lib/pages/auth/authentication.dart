@@ -316,9 +316,11 @@ class _LoginPageState extends State<LoginPage> {
                                 style: ButtonStyle(
                                   foregroundColor:
                                       MaterialStateProperty.all<Color>(
-                                          Provider.of<ThemeNotifier>(context).isDarkMode == true
-                                        ? Colors.white
-                                        : Colors.black),
+                                          Provider.of<ThemeNotifier>(context)
+                                                      .isDarkMode ==
+                                                  true
+                                              ? Colors.white
+                                              : Colors.black),
                                   overlayColor:
                                       MaterialStateProperty.all<Color>(Colors
                                           .transparent), // Tıklama efektini kaldır
@@ -348,8 +350,11 @@ class _LoginPageState extends State<LoginPage> {
                                 style: ButtonStyle(
                                   foregroundColor:
                                       MaterialStateProperty.all<Color>(
-                                          Provider.of<ThemeNotifier>(context).isDarkMode == true
-                                        ? Colors.white : Colors.black),
+                                          Provider.of<ThemeNotifier>(context)
+                                                      .isDarkMode ==
+                                                  true
+                                              ? Colors.white
+                                              : Colors.black),
                                   overlayColor:
                                       MaterialStateProperty.all<Color>(Colors
                                           .transparent), // Tıklama efektini kaldır
@@ -604,17 +609,17 @@ class _LoginPageState extends State<LoginPage> {
                           child: _currentIndex == 1 && _isButtonChecked == false
                               ? Text('Kayıt Ol')
                               : _isButtonChecked == true
-                                      ? Text('Giriş Yap')
-                                      : Text('Devam Et'),
+                                  ? Text('Giriş Yap')
+                                  : Text('Devam Et'),
                           onPressed: () {
-                              _currentIndex == 0 ? 
-                              setState(() {
-                                _currentIndex++;
-                              }) :
-                            _currentIndex == 1 && _isButtonChecked == false
-                                ? _onClickButton()
-                                : _authUser(emailControllerForLogin.text,
-                                    passwordControllerForLogin.text);
+                            _currentIndex == 0 && _isButtonChecked == false
+                                ? setState(() {
+                                    _currentIndex++;
+                                  })
+                                : _currentIndex == 1
+                                    ? _onClickButton()
+                                    : _authUser(emailControllerForLogin.text,
+                                        passwordControllerForLogin.text);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.yellow[700], // Buton rengi
