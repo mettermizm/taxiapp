@@ -29,8 +29,9 @@ class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool showOtherWidgets = true;
   LatLng startPoint =
-  LatLng(38.41465813848041, 27.13873886099405); // Örnek başlangıç noktası
-  LatLng endPoint = LatLng(38.41170946334618, 27.128457612315454); // Örnek bitiş noktası
+      LatLng(38.41465813848041, 27.13873886099405); // Örnek başlangıç noktası
+  LatLng endPoint =
+      LatLng(38.41170946334618, 27.128457612315454); // Örnek bitiş noktası
 
   @override
   void initState() {
@@ -87,8 +88,234 @@ class _MyHomePageState extends State<MyHomePage> {
     return data.buffer.asUint8List();
   }
 
+  String _mapStyleForDarkMode = '''
+[
+  {
+    "stylers": [
+      {
+        "weight": 6
+      }
+    ]
+  },
+  {
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#242f3e"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#746855"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#242f3e"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.locality",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#d59563"
+      }
+    ]
+  },
+  {
+    "featureType": "landscape.natural",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "weight": 8
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#d59563"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#263c3f"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#6b9a76"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#38414e"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#212a37"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#9ca5b3"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#746855"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#1f2835"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#f3d19c"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#2f3948"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.station",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#d59563"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#17263c"
+      },
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#515c6d"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#17263c"
+      }
+    ]
+  }
+]
+''';
+
+  String _mapStyleForLightMode = ''' 
+  [
+  {
+    "stylers": [
+      {
+        "weight": 6
+      }
+    ]
+  },
+  {
+    "featureType": "landscape.natural",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "weight": 8
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  }
+]''';
+
+    GoogleMapController? _mapController;
+
+
+void _setMapStyle(bool isDarkMode) {
+  if (_mapController == null) return;
+  
+  _mapController!.setMapStyle(
+    isDarkMode ? _mapStyleForDarkMode : _mapStyleForLightMode
+  );
+}
+
+
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Provider.of<ThemeNotifier>(context).isDarkMode;
+
     return Scaffold(
       key: _scaffoldKey,
       body: Stack(
@@ -107,6 +334,10 @@ class _MyHomePageState extends State<MyHomePage> {
               final Uint8List iconData = snapshot.data!;
 
               return GoogleMap(
+                onMapCreated: (GoogleMapController controller) {
+                    _mapController = controller;
+                    _setMapStyle(isDarkMode); // İlk map stilini ayarlayın
+                },
                 polylines: _polylines,
                 onCameraMove: (p0) => {
                   setState(() {
