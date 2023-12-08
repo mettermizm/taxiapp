@@ -10,6 +10,7 @@ import 'package:taxiapp/class/custom_drawer.dart';
 import 'package:taxiapp/class/custom_icon.dart';
 import 'package:taxiapp/class/model/theme.dart';
 
+// ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   Map<String, dynamic>? baslangic;
   Map<String, dynamic>? marker;
@@ -22,9 +23,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late Future<Uint8List> iconBytes;
   late double distance; // double türünde bir değişken tanımlıyoruz
+  Set<Polyline> _polylines = Set<Polyline>();
+  int _polylineIdCounter = 1;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool showOtherWidgets = true;
+  LatLng startPoint =
+  LatLng(38.41465813848041, 27.13873886099405); // Örnek başlangıç noktası
+  LatLng endPoint = LatLng(38.41170946334618, 27.128457612315454); // Örnek bitiş noktası
 
   @override
   void initState() {
@@ -34,14 +40,18 @@ class _MyHomePageState extends State<MyHomePage> {
     // calculateDistance fonksiyonunu burada async olarak çağırıyoruz ve sonucunu bekliyoruz
     calculateDistance(
       LatLng(38.41170946334618, 27.128457612315454),
-      LatLng(widget.marker?['lat'] ?? 37.7749, widget.marker?['lang'] ?? -122.4194),
+      LatLng(widget.marker?['lat'] ?? 37.7749,
+          widget.marker?['lang'] ?? -122.4194),
     ).then((result) {
       setState(() {
         distance = result; // Sonucu distance değişkenine atıyoruz
       });
       print('İki Marker arasındaki mesafe: $distance metre');
     });
+
+    _addPolyline(startPoint, endPoint);
   }
+
   // İki nokta arasındaki mesafeyi hesaplar
   Future<double> calculateDistance(LatLng start, LatLng end) async {
     final Position startPosition = await Geolocator.getCurrentPosition(
@@ -56,6 +66,20 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     return distanceInMeters;
+  }
+
+  void _addPolyline(LatLng startPoint, LatLng endPoint) {
+    final String polylineIdVal = 'polyline_$_polylineIdCounter';
+    _polylineIdCounter++;
+
+    _polylines.add(
+      Polyline(
+        polylineId: PolylineId(polylineIdVal),
+        width: 5,
+        color: Colors.blue,
+        points: [startPoint, endPoint],
+      ),
+    );
   }
 
   Future<Uint8List> loadIconBytes(String assetPath) async {
@@ -83,6 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
               final Uint8List iconData = snapshot.data!;
 
               return GoogleMap(
+                polylines: _polylines,
                 onCameraMove: (p0) => {
                   setState(() {
                     showOtherWidgets = false;
