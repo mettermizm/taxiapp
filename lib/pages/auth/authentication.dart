@@ -12,49 +12,6 @@ import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/class/model/user_model.dart';
 import 'package:taxiapp/pages/map_page.dart';
 
-/*
-void main() {
-  runApp(AuthenticationPage());
-}
-
-class AuthenticationPage extends StatelessWidget {
-  const AuthenticationPage({Key? key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'PROJECT: TAXI',
-      theme: ThemeData(
-        primarySwatch: Colors.yellow,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide.none,
-          ),
-          filled: true,
-          fillColor: Colors.white,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.yellow[700], // Buton rengi
-            foregroundColor: Colors.black, // Buton üzerindeki yazı rengi
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-          ),
-        ),
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.black87, // Text buton rengi
-          ),
-        ),
-      ),
-      home: LoginPage(),
-    );
-  }
-}
-*/
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();

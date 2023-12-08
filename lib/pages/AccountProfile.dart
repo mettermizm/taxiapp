@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiapp/class/model/theme.dart';
@@ -39,6 +40,12 @@ class _AccountProfileState extends State<AccountProfile> {
   final _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final userModel = Provider.of<UserModel>(context);
     final user = userModel.user;
@@ -65,7 +72,14 @@ class _AccountProfileState extends State<AccountProfile> {
                     backgroundColor: Color(0xFFFFC107),
                   ),
                 ),
-                SizedBox(height: 16),
+                SizedBox(height: 26),
+                Row(
+                  children: [
+                    Text('Kullanıcı adı : \n${user?.displayName ?? 'Hello\n'}\n'),
+                    Text('E-mail : \n${user?.email ?? 'Hello\n'}\n')
+                  ],
+                ),
+                SizedBox(height: 50,),
                 MyTextFormField(
                   labelText: 'Kullanıcı Adı',
                   validator: (value) {
@@ -175,10 +189,13 @@ class _AccountProfileState extends State<AccountProfile> {
                       },
                       child: Text('Güncelle',
                           style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color:Provider.of<ThemeNotifier>(context).isDarkMode == true
-              ? Colors.white
-              : Colors.white,)),
+                            fontWeight: FontWeight.w600,
+                            color: Provider.of<ThemeNotifier>(context)
+                                        .isDarkMode ==
+                                    true
+                                ? Colors.white
+                                : Colors.white,
+                          )),
                     ),
                   ],
                 )
