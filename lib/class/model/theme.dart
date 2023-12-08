@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeNotifier with ChangeNotifier {
-  late ThemeData currentTheme; // late anahtar kelimesi kullan
-  bool get isDarkMode => currentTheme.brightness == Brightness.dark;
+  ThemeData? currentTheme; // late anahtar kelimesi kullan
+  bool get isDarkMode => currentTheme?.brightness == Brightness.dark;
 
   ThemeNotifier() {
     // Tema ayarlarını saklayan SharedPreferences'ı başlatın.

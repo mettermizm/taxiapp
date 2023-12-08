@@ -192,28 +192,30 @@ class _BottomBarState extends State<BottomBar> {
                       child: TextField(
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color:
-                              Provider.of<ThemeNotifier>(context).isDarkMode ==
-                                      true
-                                  ? Colors.white
-                                  : Colors.black,
+                          color: Provider.of<ThemeNotifier>(context).isDarkMode == true
+                              ? Colors.white
+                              : Colors.black,
                           fontSize: 16,
                         ),
+                        textAlign: TextAlign.center, // Metni ve ipucunu ortala
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8), // İçerik paddingini ayarla
                           border: OutlineInputBorder(
-                            // Sınır stilini ayarlamak için
-                            borderRadius:
-                                BorderRadius.circular(8), // Kenar yuvarlaklığı
-                            borderSide: BorderSide
-                                .none, // Sınır çizgisini kaldırmak için
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
                           ),
                           hintText: widget.konum ?? 'Nereye Gitmek İstersiniz?',
+                          hintStyle: TextStyle(
+                            fontSize: 20,
+                            color: Colors.grey, // İpucu metni rengini ayarla
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
               )
+
             ],
           ),
         ),
