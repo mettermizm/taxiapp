@@ -1,7 +1,9 @@
 // ignore: must_be_immutable
+import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +11,7 @@ import 'package:taxiapp/class/bottom_bar.dart';
 import 'package:taxiapp/class/custom_drawer.dart';
 import 'package:taxiapp/class/custom_icon.dart';
 import 'package:taxiapp/class/model/theme.dart';
+import 'package:taxiapp/services/location_service.dart';
 
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
@@ -23,8 +26,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late Future<Uint8List> iconBytes;
   late double distance; // double türünde bir değişken tanımlıyoruz
+  Set<Marker> _markers = Set<Marker>();
+  Set<Polygon> _polygons = Set<Polygon>();
   Set<Polyline> _polylines = Set<Polyline>();
+  List<LatLng> polygonLatLngs = <LatLng>[];
+
+  int _polygonIdCounter = 1;
   int _polylineIdCounter = 1;
+  late double latitude;
+  late double longitude;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool showOtherWidgets = true;
@@ -37,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     iconBytes = loadIconBytes('assets/car.png');
+    _setMarker(LatLng(38.47570, 27.03719));
 
     // calculateDistance fonksiyonunu burada async olarak çağırıyoruz ve sonucunu bekliyoruz
     calculateDistance(
@@ -51,7 +62,124 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     _addPolyline(startPoint, endPoint);
+
+    getLocationData();
   }
+
+  void _setMarker(LatLng point) {
+    setState(() {
+      _markers.add(
+        Marker(markerId: MarkerId('marker'), position: point),
+      );
+    });
+  }
+
+  Future<Position> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Konum servisi etkin mi kontrol et
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Servis kapalı ise kullanıcıya açmasını iste
+      serviceEnabled = await Geolocator.openLocationSettings();
+      if (!serviceEnabled) {
+        // Kullanıcı servisi açmayı reddetti
+        throw Exception('Konum servisleri etkin değil.');
+      }
+    }
+
+    // Konum izni kontrol et
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      // İzin yoksa kullanıcıya izin iste
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Kullanıcı izni reddetti
+        throw Exception('Konum izni reddedildi.');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Kullanıcı izni sonsuza kadar reddetti
+      throw Exception('Konum izni kalıcı olarak reddedildi.');
+    }
+
+    // Konum bilgisini al
+    return await Geolocator.getCurrentPosition();
+  }
+
+  Future<void> getLocationData() async {
+    try {
+      Position position = await getCurrentLocation();
+
+      latitude = position.latitude;
+      longitude = position.longitude;
+
+      print("Latitude: $latitude, Longitude: $longitude");
+
+      // Bu değerleri başka bir işlemde kullanabilirsiniz.
+    } catch (e) {
+      print("Hata: $e");
+    }
+  }
+
+  void _setPolygon() {
+    final String polygonIdVal = 'polygon_$_polygonIdCounter';
+    _polygonIdCounter++;
+
+    _polygons.add(
+      Polygon(
+        polygonId: PolygonId(polygonIdVal),
+        points: polygonLatLngs,
+        strokeWidth: 2,
+        fillColor: Colors.transparent,
+      ),
+    );
+  }
+
+  void _setPolyline(List<PointLatLng> points) {
+    final String polylineIdVal = 'polygon_$_polylineIdCounter';
+    _polylineIdCounter++;
+    _polylines.add(
+      Polyline(
+        polylineId: PolylineId(polylineIdVal),
+        width: 2,
+        color: Colors.blue,
+        points: points
+            .map(
+              (point) => LatLng(point.latitude, point.longitude),
+            )
+            .toList(),
+      ),
+    );
+  }
+
+  // void drawLine() async {
+  //   var directions = await LocationSerivce()
+  //       .getDirections(_originController.text,   _destinationController.text);
+  //   if (directions != null) {
+  //     _goToPlace(
+  //       directions['start_location']['lat'],
+  //       directions['start_location']['lng'],
+  //       directions['bounds_ne'],
+  //       directions['bounds_sw'],
+  //     );
+  //   } else {
+  //     print('Yön bulma başarısız oldu');
+  //   }
+
+  //   _setPolyline(directions['polyline_decoded']);
+  //   print("tutar");
+  //   if (directions['cost'] != null) {
+  //     print(directions['cost'].toStringAsFixed(2));
+  //     ucret = directions['cost'].toStringAsFixed(2);
+  //   } else {
+  //     print('Coast değeri null');
+  //   }
+  // }
+
+  String ucret = "0";
 
   // İki nokta arasındaki mesafeyi hesaplar
   Future<double> calculateDistance(LatLng start, LatLng end) async {
@@ -300,22 +428,22 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 ]''';
 
-    GoogleMapController? _mapController;
+  final Completer<GoogleMapController> _mapController =
+      Completer<GoogleMapController>();
 
+  void _setMapStyle(bool isDarkMode) async {
+    final GoogleMapController controller = await _mapController.future;
 
-void _setMapStyle(bool isDarkMode) {
-  if (_mapController == null) return;
-  
-  _mapController!.setMapStyle(
-    isDarkMode ? _mapStyleForDarkMode : _mapStyleForLightMode
-  );
-}
+    if (controller == null) return;
 
+    controller.setMapStyle(
+      isDarkMode ? _mapStyleForDarkMode : _mapStyleForLightMode,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Provider.of<ThemeNotifier>(context).isDarkMode;
-
     return Scaffold(
       key: _scaffoldKey,
       body: Stack(
@@ -335,8 +463,7 @@ void _setMapStyle(bool isDarkMode) {
 
               return GoogleMap(
                 onMapCreated: (GoogleMapController controller) {
-                    _mapController = controller;
-                    _setMapStyle(isDarkMode); // İlk map stilini ayarlayın
+                  _setMapStyle(isDarkMode); // İlk map stilini ayarlayın
                 },
                 polylines: _polylines,
                 onCameraMove: (p0) => {
@@ -351,13 +478,13 @@ void _setMapStyle(bool isDarkMode) {
                 },
                 mapType: MapType.normal,
                 initialCameraPosition: CameraPosition(
-                    target: LatLng(widget.marker?['lat'] ?? 38.41465813848041,
-                        widget.marker?['lang'] ?? 27.13873886099405),
+                    target: LatLng(latitude, longitude),
                     zoom: 14.0),
                 markers: Set<Marker>.of([
                   Marker(
                     markerId: MarkerId('marker_1'),
-                    position: LatLng(38.41465813848041, 27.13873886099405),
+                    position: LatLng(widget.marker?['lat'] ?? 38.41465813848041,
+                        widget.marker?['lang'] ?? 27.13873886099405),
                     infoWindow: InfoWindow(
                       title: 'San Francisco',
                       snippet: 'Example Marker',
@@ -414,13 +541,43 @@ void _setMapStyle(bool isDarkMode) {
             child: Visibility(
               visible: showOtherWidgets,
               child: BottomBar(
-                  konum:
-                      widget.baslangic == null ? null : widget.marker?['name']),
+                  konum: widget.baslangic == null
+                      ? '${latitude} $longitude'
+                      : widget.marker?['name']),
             ),
           ),
         ],
       ),
       drawer: CustomDrawer(),
+    );
+  }
+
+  Future<void> _goToPlace(
+    // Map<String, dynamic> place
+    double lat,
+    double lng,
+    Map<String, dynamic> boundsNe,
+    Map<String, dynamic> boundsSw,
+  ) async {
+    final GoogleMapController controller = await _mapController.future;
+    await controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(lat, lng),
+          zoom: 12,
+        ),
+      ),
+    );
+
+    controller.animateCamera(
+      CameraUpdate.newLatLngBounds(
+          LatLngBounds(
+              southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
+              northeast: LatLng(boundsNe['lat'], boundsNe['lng'])),
+          25),
+    );
+    _setMarker(
+      LatLng(lat, lng),
     );
   }
 }
