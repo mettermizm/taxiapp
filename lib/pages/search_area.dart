@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/pages/map_page.dart';
+
 
 class SearchArea extends StatefulWidget {
   const SearchArea({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class SearchArea extends StatefulWidget {
 }
 
 class _SearchAreaState extends State<SearchArea> {
+  final _places = GoogleMapsPlaces(apiKey: "AIzaSyDVmWA_B1R1eetTVJp_pMzfG6HCIT2S9is");
   FocusNode _focusNode = FocusNode();
 
   @override
@@ -24,6 +27,14 @@ class _SearchAreaState extends State<SearchArea> {
   void dispose() {
     _focusNode.dispose();
     super.dispose();
+  }
+
+  Future<List<Prediction>> _getSuggestions(String input) async {
+    PlacesAutocompleteResponse response = await _places.autocomplete(input);
+    if (response.isOkay) {
+      return response.predictions;
+    }
+    return [];
   }
 
   Map<String, dynamic> _baseLocation = {
@@ -114,6 +125,10 @@ class _SearchAreaState extends State<SearchArea> {
                       borderSide: BorderSide(color: Colors.amber)),
                   focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.amber))),
+                onChanged: (value) async {
+                    List<Prediction> suggestions = await _getSuggestions(value);
+                    // Bu kısımda önerileri kullanıcıya göstermek için bir widget güncellemesi yapabilirsiniz.
+                },
             ),
             SizedBox(
               height: 12,
