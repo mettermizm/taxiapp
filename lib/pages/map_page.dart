@@ -1,6 +1,4 @@
-// ignore: must_be_immutable
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -26,15 +24,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late Future<Uint8List> iconBytes;
   late double distance; // double türünde bir değişken tanımlıyoruz
-  Set<Marker> _markers = Set<Marker>();
-  Set<Polygon> _polygons = Set<Polygon>();
-  Set<Polyline> _polylines = Set<Polyline>();
+  final Set<Marker> _markers = Set<Marker>();
+  final Set<Polyline> _polylines = Set<Polyline>();
   List<LatLng> polygonLatLngs = <LatLng>[];
 
-  int _polygonIdCounter = 1;
   int _polylineIdCounter = 1;
-  late double latitude;
-  late double longitude;
+  late double? latitude;
+  late double? longitude;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool showOtherWidgets = true;
@@ -60,10 +56,12 @@ class _MyHomePageState extends State<MyHomePage> {
       });
       print('İki Marker arasındaki mesafe: $distance metre');
     });
-
+// 38.42159726811209, 27.132838135850328
+// 38.41904805743978, 27.132911222045077
     _addPolyline(startPoint, endPoint);
 
     getLocationData();
+    drawLine();
   }
 
   void _setMarker(LatLng point) {
@@ -113,8 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       Position position = await getCurrentLocation();
 
-      latitude = position.latitude;
-      longitude = position.longitude;
+      setState(() {
+        latitude = position.latitude;
+        longitude = position.longitude;
+      });
 
       print("Latitude: $latitude, Longitude: $longitude");
 
@@ -124,19 +124,19 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void _setPolygon() {
-    final String polygonIdVal = 'polygon_$_polygonIdCounter';
-    _polygonIdCounter++;
+  // void _setPolygon() {
+  //   final String polygonIdVal = 'polygon_$_polygonIdCounter';
+  //   _polygonIdCounter++;
 
-    _polygons.add(
-      Polygon(
-        polygonId: PolygonId(polygonIdVal),
-        points: polygonLatLngs,
-        strokeWidth: 2,
-        fillColor: Colors.transparent,
-      ),
-    );
-  }
+  //   _polygons.add(
+  //     Polygon(
+  //       polygonId: PolygonId(polygonIdVal),
+  //       points: polygonLatLngs,
+  //       strokeWidth: 2,
+  //       fillColor: Colors.transparent,
+  //     ),
+  //   );
+  // }
 
   void _setPolyline(List<PointLatLng> points) {
     final String polylineIdVal = 'polygon_$_polylineIdCounter';
@@ -155,29 +155,31 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  // void drawLine() async {
-  //   var directions = await LocationSerivce()
-  //       .getDirections(_originController.text,   _destinationController.text);
-  //   if (directions != null) {
-  //     _goToPlace(
-  //       directions['start_location']['lat'],
-  //       directions['start_location']['lng'],
-  //       directions['bounds_ne'],
-  //       directions['bounds_sw'],
-  //     );
-  //   } else {
-  //     print('Yön bulma başarısız oldu');
-  //   }
+  void drawLine() async {
+    var directions = await LocationSerivce().getDirections(
+        widget.marker?['adres'] ?? 'Küçükyalı Mah, Mithatpaşa Cd. No:469, 35280 Konak/İzmir',
+        38.41170946334618,
+        27.128457612315454);
+    if (directions != null) {
+      _goToPlace(
+        directions['start_location']['lat'],
+        directions['start_location']['lng'],
+        directions['bounds_ne'],
+        directions['bounds_sw'],
+      );
+    } else {
+      print('Yön bulma başarısız oldu');
+    }
 
-  //   _setPolyline(directions['polyline_decoded']);
-  //   print("tutar");
-  //   if (directions['cost'] != null) {
-  //     print(directions['cost'].toStringAsFixed(2));
-  //     ucret = directions['cost'].toStringAsFixed(2);
-  //   } else {
-  //     print('Coast değeri null');
-  //   }
-  // }
+    _setPolyline(directions['polyline_decoded']);
+    print("tutar");
+    if (directions['cost'] != null) {
+      print(directions['cost'].toStringAsFixed(2));
+      ucret = directions['cost'].toStringAsFixed(2);
+    } else {
+      print('Coast değeri null');
+    }
+  }
 
   String ucret = "0";
 
@@ -478,16 +480,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 mapType: MapType.normal,
                 initialCameraPosition: CameraPosition(
-                    target: LatLng(latitude, longitude),
+                    target: LatLng(38.42159726811209, 27.132838135850328),
                     zoom: 14.0),
                 markers: Set<Marker>.of([
                   Marker(
                     markerId: MarkerId('marker_1'),
-                    position: LatLng(widget.marker?['lat'] ?? 38.41465813848041,
-                        widget.marker?['lang'] ?? 27.13873886099405),
+                    position:
+                        LatLng(latitude ?? 37.7749, longitude ?? -122.4194),
                     infoWindow: InfoWindow(
-                      title: 'San Francisco',
-                      snippet: 'Example Marker',
+                      title: 'Konumunuz',
+                      snippet: 'Şuan bu konumdasınız',
                     ),
                   ),
                   Marker(

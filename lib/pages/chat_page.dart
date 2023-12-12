@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:taxiapp/class/app_color.dart';
 import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/components/chat_bubble.dart';
-import 'package:taxiapp/components/my_text_field.dart';
 import 'package:taxiapp/services/auth/chat/chat_service.dart';
 
 class ChatPage extends StatefulWidget {
@@ -117,7 +116,7 @@ class _ChatPageState extends State<ChatPage> {
                   return Center(child: CircularProgressIndicator());
                 }
 
-                WidgetsBinding.instance!.addPostFrameCallback((_) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
                   _scrollController
                       .jumpTo(_scrollController.position.maxScrollExtent);
                 });

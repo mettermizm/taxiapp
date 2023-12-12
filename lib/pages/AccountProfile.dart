@@ -1,33 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/class/model/user_model.dart';
+import 'package:taxiapp/class/widget_class.dart';
 import 'package:taxiapp/pages/map_page.dart';
-
-class MyTextFormField extends StatelessWidget {
-  final String labelText;
-  final String? Function(String?)? validator;
-  final bool isPassword;
-
-  MyTextFormField({
-    required this.labelText,
-    this.validator,
-    this.isPassword = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: isPassword,
-      decoration: InputDecoration(
-        labelText: labelText,
-        labelStyle: TextStyle(fontWeight: FontWeight.w600),
-      ),
-      validator: validator,
-    );
-  }
-}
 
 class AccountProfile extends StatefulWidget {
   const AccountProfile({super.key});
@@ -49,6 +25,13 @@ class _AccountProfileState extends State<AccountProfile> {
   Widget build(BuildContext context) {
     final userModel = Provider.of<UserModel>(context);
     final user = userModel.user;
+    TextEditingController username = TextEditingController();
+    TextEditingController name = TextEditingController();
+    TextEditingController surname = TextEditingController();
+    TextEditingController email = TextEditingController();
+    TextEditingController password = TextEditingController();
+    TextEditingController passwordAgain = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.amber),
@@ -75,13 +58,17 @@ class _AccountProfileState extends State<AccountProfile> {
                 SizedBox(height: 26),
                 Row(
                   children: [
-                    Text('Kullanıcı adı : \n${user?.displayName ?? 'Hello\n'}\n'),
+                    Text(
+                        'Kullanıcı adı : \n${user?.displayName ?? 'Hello\n'}\n'),
                     Text('E-mail : \n${user?.email ?? 'Hello\n'}\n')
                   ],
                 ),
-                SizedBox(height: 50,),
-                MyTextFormField(
-                  labelText: 'Kullanıcı Adı',
+                SizedBox(
+                  height: 50,
+                ),
+                MyTextFormField.textFormField(
+                  username,
+                  'Kullanıcı Adı',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Kullanıcı Adı boş olamaz';
@@ -89,8 +76,12 @@ class _AccountProfileState extends State<AccountProfile> {
                     return null;
                   },
                 ),
-                MyTextFormField(
-                  labelText: 'Ad',
+                SizedBox(
+                  height: 50,
+                ),
+                MyTextFormField.textFormField(
+                  name,
+                  'Ad',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Ad boş olamaz';
@@ -98,8 +89,12 @@ class _AccountProfileState extends State<AccountProfile> {
                     return null;
                   },
                 ),
-                MyTextFormField(
-                  labelText: 'Soyad',
+                SizedBox(
+                  height: 50,
+                ),
+                MyTextFormField.textFormField(
+                  surname,
+                  'Surname',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Soyad boş olamaz';
@@ -107,8 +102,12 @@ class _AccountProfileState extends State<AccountProfile> {
                     return null;
                   },
                 ),
-                MyTextFormField(
-                  labelText: 'Email',
+                SizedBox(
+                  height: 50,
+                ),
+                MyTextFormField.textFormField(
+                  email,
+                  'Email',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Email boş olamaz';
@@ -116,9 +115,12 @@ class _AccountProfileState extends State<AccountProfile> {
                     return null;
                   },
                 ),
-                MyTextFormField(
-                  labelText: 'Şifre',
-                  isPassword: true,
+                SizedBox(
+                  height: 50,
+                ),
+                MyTextFormField.textFormField(
+                  password,
+                  'Şifre',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Şifre boş olamaz';
@@ -126,15 +128,21 @@ class _AccountProfileState extends State<AccountProfile> {
                     return null;
                   },
                 ),
-                MyTextFormField(
-                  labelText: 'Şifre Tekrar',
-                  isPassword: true,
+                SizedBox(
+                  height: 50,
+                ),
+                MyTextFormField.textFormField(
+                  passwordAgain,
+                  'Şifre Tekrar',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Şifre boş olamaz';
                     }
                     return null;
                   },
+                ),
+                SizedBox(
+                  height: 50,
                 ),
                 SizedBox(height: 16),
                 Row(
@@ -193,8 +201,8 @@ class _AccountProfileState extends State<AccountProfile> {
                             color: Provider.of<ThemeNotifier>(context)
                                         .isDarkMode ==
                                     true
-                                ? Colors.white
-                                : Colors.white,
+                                ? Colors.red
+                                : Colors.red,
                           )),
                     ),
                   ],

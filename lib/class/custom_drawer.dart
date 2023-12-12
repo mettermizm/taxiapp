@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/pages/Help.dart';
 import 'package:taxiapp/pages/account.dart';
-import 'package:taxiapp/pages/auth/LoginPages.dart';
 import 'package:taxiapp/pages/past_ride.dart';
 import 'package:taxiapp/pages/payment.dart';
 

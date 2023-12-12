@@ -43,11 +43,14 @@ class LocationSerivce {
       return {};
     }
   }
-  
-  Future<Map<String, dynamic>> getDirections(
-      String origin, String destination) async {
+
+  Future<Map<String, dynamic>> getDirections(String destination,
+      double lat, double lang) async {
+    String userLocal ='$lat , $lang';
     final String url =
-        'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&key=$key';
+        'https://maps.googleapis.com/maps/api/directions/json?origin=${userLocal}&destination=$destination&key=$key';
+
+    print(url);
 
     var response = await http.get(Uri.parse(url));
 

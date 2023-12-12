@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:taxiapp/class/app_color.dart';
 import 'package:taxiapp/class/model/theme.dart';
 
 class MyCustomIcon extends StatelessWidget {
@@ -10,7 +11,7 @@ class MyCustomIcon extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color:Provider.of<ThemeNotifier>(context).isDarkMode == true
-              ? Colors.black
+              ? AppColors.dark_theme.wigdetColor
               : Colors.white,
         shape: BoxShape.rectangle,
         boxShadow: [

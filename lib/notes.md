@@ -1,4 +1,3 @@
-
 AnimatedRatingStars(
   initialRating: person["rate"] ?? 0.0,
   minRating: 0.0,

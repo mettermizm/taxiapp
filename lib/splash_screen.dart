@@ -9,6 +9,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  double progressValue = 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -16,14 +18,22 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _mockCheckForSession() async {
-    await Future.delayed(Duration(milliseconds: 2500), () {
+    const int totalMilliseconds = 2500;
+    const int updateIntervalMilliseconds = 50;
+
+    // Toplam süre içinde belirli aralıklarla progressValue'yu güncelleyerek çizgiyi ilerlet
+    Timer.periodic(Duration(milliseconds: updateIntervalMilliseconds), (timer) {
+      if (progressValue < 1.0) {
+        setState(() {
+          progressValue += (updateIntervalMilliseconds / totalMilliseconds);
+        });
+      } else {
+        timer.cancel();
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context) => MyHomePage()),
+        );
+      }
     });
-     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (BuildContext context) => MyHomePage()
-      )
-    );
-    
   }
 
   @override
@@ -33,9 +43,6 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            // Opacity(
-            //     opacity: 0.5,
-            //     child: Image.asset('assets/project_taxi_son.png')),
             Center(
               child: Shimmer.fromColors(
                 period: Duration(milliseconds: 1500),
@@ -46,7 +53,15 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Image.asset('assets/project_taxi_son.png'),
                 ),
               ),
-            )
+            ),
+            Positioned(
+              bottom: 16.0,
+              child: LinearProgressIndicator(
+                value: progressValue,
+                backgroundColor: Colors.grey,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
+              ),
+            ),
           ],
         ),
       ),

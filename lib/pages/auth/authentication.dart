@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:taxiapp/class/app_color.dart';
 import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/class/model/user_model.dart';
+import 'package:taxiapp/class/widget_class.dart';
 import 'package:taxiapp/pages/map_page.dart';
 import 'package:taxiapp/splash_screen.dart';
 
@@ -93,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
             if (userEmail!.isNotEmpty && userPassword.isNotEmpty) {
               debugPrint('Email ve şifre doğru.');
               // İstediğiniz işlemleri yapabilirsiniz.
-              if (userEmail!.isNotEmpty && userPassword.isNotEmpty) {
+              if (userEmail.isNotEmpty && userPassword.isNotEmpty) {
                 debugPrint('Email ve şifre doğru.');
                 // İstediğiniz işlemleri yapabilirsiniz.
                 User? user = FirebaseAuth.instance.currentUser;
@@ -138,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
           .then((_) => null)
           .catchError((e) {
         debugPrint('Hata: $e');
-        return 'Hesap oluşturulamadı: $e';
+        return e;
       });
     }
 
@@ -643,32 +644,22 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         SizedBox(height: 16.0),
         // Name field.
-        textFormField(
+        MyTextFormField.textFormField(
           controller1,
           text1,
         ),
         SizedBox(height: 16.0),
         // Email field.
-        textFormField(
+        MyTextFormField.textFormField(
           controller2,
           text2,
           inputType: TextInputType.emailAddress,
         ),
         SizedBox(height: 16.0),
         // Password field.
-        textFormField(controller3, text3, obsure: true),
+        MyTextFormField.textFormField(controller3, text3, obsure: true),
         SizedBox(height: 24.0),
       ],
-    );
-  }
-
-  Widget textFormField(TextEditingController controller, String text,
-      {TextInputType? inputType, bool? obsure}) {
-    return MyTextFormField(
-      type: inputType ?? TextInputType.text,
-      controller: controller,
-      text: text,
-      obscure: obsure ?? false,
     );
   }
 
@@ -681,41 +672,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-class MyTextFormField extends StatelessWidget {
-  final TextEditingController controller;
-  final String text;
-  final TextInputType? type;
-  final bool? obscure;
-
-  MyTextFormField(
-      {required this.controller,
-      required this.text,
-      required this.type,
-      this.obscure});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: text,
-        prefixIcon: Icon(FontAwesomeIcons.genderless),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey, width: 2.0),
-          borderRadius: BorderRadius.circular(25.0),
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.yellow, width: 5),
-          borderRadius: BorderRadius.circular(25.0),
-        ),
-      ),
-      obscureText: obscure ?? false,
-      keyboardType: type ?? TextInputType.text,
-    );
-  }
-}
-
 
 
 

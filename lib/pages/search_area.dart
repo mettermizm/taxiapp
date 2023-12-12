@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:provider/provider.dart';
 import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/pages/map_page.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 
 class SearchArea extends StatefulWidget {
   const SearchArea({Key? key}) : super(key: key);
@@ -34,35 +31,36 @@ class _SearchAreaState extends State<SearchArea> {
   }
 
   Future<List<Prediction>> _getSuggestions(String input) async {
-    PlacesAutocompleteResponse response = await _places.autocomplete(input);
-    if (response.isOkay) {
-      return response.predictions;
-    }
-    return [];
+  PlacesAutocompleteResponse response = await _places.autocomplete(input);
+  if (response.isOkay) {
+    return response.predictions;
   }
+  return [];
+}
+
 
   Map<String, dynamic> _baseLocation = {
     'saat_kulesi': {
       'name': 'İzmir Saat Kulesi',
-      "adres" : 'Kemeraltı Çarşısı, 35360 Konak/İzmir',
+      "adres": 'Kemeraltı Çarşısı, 35360 Konak/İzmir',
       'lat': 38.41170946334618,
       'lang': 27.128457612315454
     },
     'adnan_menderes_havalimani': {
       'name': 'Adnan Menderes Havalimanı',
-      "adres":'Dokuz Eylül, 35410 Gaziemir/İzmir',
+      "adres": 'Dokuz Eylül, 35410 Gaziemir/İzmir',
       'lat': 38.2921319298416,
       'lang': 27.148907594283028
     },
     'kültürpark': {
       'name': 'Kültürpark İzmir',
-      'adres' : 'Mimar Sinan, Şair Eşref Blv. No.50, 35220 Konak/İzmir',
+      'adres': 'Mimar Sinan, Şair Eşref Blv. No.50, 35220 Konak/İzmir',
       'lat': 38.42869959642496,
       'lang': 27.14531281039571
     },
     'camii': {
       'name': 'Konak Cami',
-      'adres':'Konak, İzmir Valiliği İç yolu No:4, 35250 Konak/İzmir',
+      'adres': 'Konak, İzmir Valiliği İç yolu No:4, 35250 Konak/İzmir',
       'lat': 38.415882284869056,
       'lang': 27.181388568065596
     },
@@ -74,7 +72,7 @@ class _SearchAreaState extends State<SearchArea> {
     },
     'mithatpasa_lisesi': {
       'name': 'Mithatpaşa Mesleki ve Teknik Anadolu Lisesi',
-      'adres':'Küçükyalı Mah, Mithatpaşa Cd. No:469, 35280 Konak/İzmir',
+      'adres': 'Küçükyalı Mah, Mithatpaşa Cd. No:469, 35280 Konak/İzmir',
       'lat': 38.40715514257953,
       'lang': 27.10742308105152
     },
@@ -136,7 +134,7 @@ class _SearchAreaState extends State<SearchArea> {
                   focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.amber))),
               onChanged: (value) async {
-                List<Prediction> suggestions = await _getSuggestions(value);
+                // List<Prediction> suggestions = await _getSuggestions(value);
                 // Bu kısımda önerileri kullanıcıya göstermek için bir widget güncellemesi yapabilirsiniz.
               },
             ),
@@ -296,8 +294,6 @@ class _SearchAreaState extends State<SearchArea> {
             context,
             MaterialPageRoute(
                 builder: (context) => MyHomePage(
-                      baslangic: _baseLocation['$title'],
-                      marker: _baseLocation['$title'],
                     )));
       },
       child: Row(
@@ -319,41 +315,5 @@ class _SearchAreaState extends State<SearchArea> {
         ],
       ),
     );
-  }
-
-  Future<Map<String, dynamic>> getDirections(
-      String origin, String destination) async {
-    final String url =
-        'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&key=$key';
-
-    var response = await http.get(Uri.parse(url));
-
-    var json = convert.jsonDecode(response.body);
-
-    var results = {
-      'bounds_ne': json['routes'][0]['bounds']['northeast'],
-      'bounds_sw': json['routes'][0]['bounds']['southwest'],
-      'start_location': json['routes'][0]['legs'][0]['start_location'],
-      'end_location': json['routes'][0]['legs'][0]['end_location'],
-      'polyline': json['routes'][0]['overview_polyline']['points'],
-      'polyline_decoded': PolylinePoints()
-          .decodePolyline(json['routes'][0]['overview_polyline']['points']),
-      'distance_text': json['routes'][0]['legs'][0]['distance']['text'],
-      'distance_value': json['routes'][0]['legs'][0]['distance']['value'],
-    };
-    print("Distance: ${results['distance_text']}");
-
-    // Mesafe sayısal değer olarak (metre cinsinden)
-    print("Distance Value: ${results['distance_value']}");
-
-    double distance =
-        double.parse(results['distance_value'].toString()) / 1000.0;
-    double costPerKilometer = 19.0;
-    results['cost'] = distance * costPerKilometer;
-
-    print("Distance: ${results['distance_text']}");
-    print("Cost: ${results['cost']} TL");
-    print(results);
-    return results;
   }
 }
