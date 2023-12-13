@@ -385,6 +385,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final Completer<GoogleMapController> _mapController =
       Completer<GoogleMapController>();
+  LatLng? _tappedLocation;
+
 
   void _setMapStyle(bool isDarkMode) async {
     final GoogleMapController controller = await _mapController.future;
@@ -430,6 +432,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     showOtherWidgets = true;
                   })
                 },
+                onTap: (LatLng location) {
+                    // Haritada tıklanan yerin konumunu al
+                    setState(() {
+                      _tappedLocation = location;
+                    });
+
+                    // Tıklanan yere işaret koy
+                    _placeMarker(location);
+                  },
                 mapType: MapType.normal,
                 initialCameraPosition: CameraPosition(
                   target: LatLng(38.42159726811209, 27.132838135850328),
@@ -503,6 +514,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       drawer: CustomDrawer(),
     );
+    
   }
 
   Future<void> _goToPlace(
@@ -533,4 +545,22 @@ class _MyHomePageState extends State<MyHomePage> {
       LatLng(lat, lng),
     );
   }
+
+  void _placeMarker(LatLng location) {
+  // Yeni bir işaretçi (marker) eklemek için
+  setState(() {
+    _markers.add(
+      Marker(
+        markerId: MarkerId("tappedLocation"),
+        position: location,
+        infoWindow: InfoWindow(
+          title: "Tıklanan Konum",
+          snippet: "Lat: ${location.latitude}, Lng: ${location.longitude}",
+        ),
+      ),
+    );
+  });
+}
+
+
 }

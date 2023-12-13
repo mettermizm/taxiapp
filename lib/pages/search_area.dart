@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:provider/provider.dart';
+import 'package:taxiapp/class/model/base_location.dart';
 import 'package:taxiapp/class/model/theme.dart';
+import 'package:taxiapp/pages/location/home_location.dart';
 import 'package:taxiapp/pages/map_page.dart';
 
 class SearchArea extends StatefulWidget {
@@ -31,52 +33,12 @@ class _SearchAreaState extends State<SearchArea> {
   }
 
   Future<List<Prediction>> _getSuggestions(String input) async {
-  PlacesAutocompleteResponse response = await _places.autocomplete(input);
-  if (response.isOkay) {
-    return response.predictions;
+    PlacesAutocompleteResponse response = await _places.autocomplete(input);
+    if (response.isOkay) {
+      return response.predictions;
+    }
+    return [];
   }
-  return [];
-}
-
-
-  Map<String, dynamic> _baseLocation = {
-    'saat_kulesi': {
-      'name': 'İzmir Saat Kulesi',
-      "adres": 'Kemeraltı Çarşısı, 35360 Konak/İzmir',
-      'lat': 38.41170946334618,
-      'lang': 27.128457612315454
-    },
-    'adnan_menderes_havalimani': {
-      'name': 'Adnan Menderes Havalimanı',
-      "adres": 'Dokuz Eylül, 35410 Gaziemir/İzmir',
-      'lat': 38.2921319298416,
-      'lang': 27.148907594283028
-    },
-    'kültürpark': {
-      'name': 'Kültürpark İzmir',
-      'adres': 'Mimar Sinan, Şair Eşref Blv. No.50, 35220 Konak/İzmir',
-      'lat': 38.42869959642496,
-      'lang': 27.14531281039571
-    },
-    'camii': {
-      'name': 'Konak Cami',
-      'adres': 'Konak, İzmir Valiliği İç yolu No:4, 35250 Konak/İzmir',
-      'lat': 38.415882284869056,
-      'lang': 27.181388568065596
-    },
-    'mini_mutfak_cafe': {
-      'name': 'Mini Mutfak Cafe',
-      'adres': 'Kılıç Reis, 320. Sk. no:5A, 35280 Konak/İzmir',
-      'lat': 38.405854490962575,
-      'lang': 27.117985539230176
-    },
-    'mithatpasa_lisesi': {
-      'name': 'Mithatpaşa Mesleki ve Teknik Anadolu Lisesi',
-      'adres': 'Küçükyalı Mah, Mithatpaşa Cd. No:469, 35280 Konak/İzmir',
-      'lat': 38.40715514257953,
-      'lang': 27.10742308105152
-    },
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -145,32 +107,40 @@ class _SearchAreaState extends State<SearchArea> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  height: 55,
-                  width: 170,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Colors.amber,
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.7),
-                            spreadRadius: 1,
-                            blurRadius: 3,
-                            offset: Offset(0, 3))
-                      ]),
-                  child: Center(
-                      child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.add),
-                      ),
-                      Text(
-                        "Ev Adresi Ekle",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ],
-                  )),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EvAdresiKaydetSayfasi()));
+                  },
+                  child: Container(
+                    height: 55,
+                    width: 170,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.amber,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.withOpacity(0.7),
+                              spreadRadius: 1,
+                              blurRadius: 3,
+                              offset: Offset(0, 3))
+                        ]),
+                    child: Center(
+                        child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.add),
+                        ),
+                        Text(
+                          "Ev Adresi Ekle",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ],
+                    )),
+                  ),
                 ),
                 SizedBox(
                   width: 12,
@@ -205,60 +175,9 @@ class _SearchAreaState extends State<SearchArea> {
               ],
             ),
             SizedBox(
-              height: 24,
+              height: 12,
             ),
-            gestureDetector('saat_kulesi'),
-            Divider(
-              color: Provider.of<ThemeNotifier>(context).isDarkMode == true
-                  ? Colors.amber
-                  : Colors.grey,
-              thickness: 1,
-              height: 20,
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            gestureDetector('adnan_menderes_havalimani'),
-            Divider(
-              color: Provider.of<ThemeNotifier>(context).isDarkMode == true
-                  ? Colors.amber
-                  : Colors.grey,
-              thickness: 1,
-              height: 20,
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            gestureDetector('kültürpark'),
-            Divider(
-              color: Provider.of<ThemeNotifier>(context).isDarkMode == true
-                  ? Colors.amber
-                  : Colors.grey,
-              thickness: 1,
-              height: 20,
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            gestureDetector('camii'),
-            Divider(
-              color: Provider.of<ThemeNotifier>(context).isDarkMode == true
-                  ? Colors.amber
-                  : Colors.grey,
-              thickness: 1,
-              height: 20,
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            gestureDetector('mini_mutfak_cafe'),
-            Divider(
-              color: Provider.of<ThemeNotifier>(context).isDarkMode == true
-                  ? Colors.amber
-                  : Colors.grey,
-              thickness: 1,
-              height: 20,
-            ),
+            buildLocationButtons(),
             SizedBox(
               height: 24,
             ),
@@ -287,15 +206,61 @@ class _SearchAreaState extends State<SearchArea> {
     );
   }
 
-  GestureDetector gestureDetector(String title) {
+  Widget buildLocationButtons() {
+    return Expanded(
+      child: Consumer<BaseLocation>(
+        builder: (context, baseLocation, child) {
+          List<String> locations = baseLocation.baseLocation.keys.toList();
+
+          return ListView.builder(
+            itemCount: locations.length,
+            itemBuilder: (context, index) {
+              //print('${locations.length}    LOCATİONS LENGTH');
+              final locationKey = locations[index];
+              final locationData = baseLocation.baseLocation[locationKey];
+
+              return Column(
+                children: [
+                  SizedBox(height: 20),
+                  Consumer<BaseLocation>(
+                    builder: (context, baseLocation, child) {
+                      // Burada gestureDetector'ı da Consumer içine alıyoruz
+                      return gestureDetector(locationKey, locationData);
+                    },
+                  ),
+                  Divider(
+                    color:
+                        Provider.of<ThemeNotifier>(context).isDarkMode == true
+                            ? Colors.amber
+                            : Colors.grey,
+                    thickness: 1,
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  GestureDetector gestureDetector(
+      String title, Map<String, dynamic> locationData) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MyHomePage(
-                    baslangic: _baseLocation['$title'],
-                    marker: _baseLocation['$title'],)));
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyHomePage(
+              baslangic: locationData,
+              marker: locationData,
+            ),
+          ),
+        );
       },
       child: Row(
         children: [
@@ -310,7 +275,7 @@ class _SearchAreaState extends State<SearchArea> {
             width: 12,
           ),
           Text(
-            _baseLocation['$title']['name'],
+            locationData['name'],
             style: TextStyle(fontWeight: FontWeight.bold),
           )
         ],

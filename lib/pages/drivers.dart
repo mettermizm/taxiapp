@@ -204,7 +204,7 @@ class _PeoplesState extends State<Peoples> {
                       int.tryParse(person['distance']?.split(' ')[0] ?? '0') ??
                           0;
 
-                  if (personDistance > selectedDistance) {
+                  if (personDistance > selectedDistance && personDistance != selectedDistance) {
                     return Container(); // Filtrelenenleri gösterme
                   }
                 }
@@ -278,11 +278,10 @@ class _PeoplesState extends State<Peoples> {
                   );
                 } else {
                   SizedBox(
-                    height: MediaQuery.of(context).size.height *
-                        0.15, 
+                    height: MediaQuery.of(context).size.height * 0.15,
                     child: Container(
                       child: Text(
-                        '${_auth.currentUser!.email}  HELLO   ${userData['email']}'),
+                          '${_auth.currentUser!.email}  HELLO   ${userData['email']}'),
                     ),
                   );
                 }

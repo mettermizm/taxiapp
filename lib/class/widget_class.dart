@@ -4,12 +4,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class MyTextFormField extends StatelessWidget {
 
   static Widget textFormField(TextEditingController controller, String text,
-      {TextInputType? inputType, bool? obsure, String? Function(String?)? validator,}) {
+      {TextInputType? inputType, bool? readOnly, bool? obsure, String? Function(String?)? validator,}) {
     return MyTextFormField(
       type: inputType ?? TextInputType.text,
       controller: controller,
       text: text,
       obscure: obsure ?? false,
+      readOnly: readOnly ?? false,
     );
   }
 
@@ -18,17 +19,20 @@ class MyTextFormField extends StatelessWidget {
   final TextInputType? type;
   final bool? obscure;
   final String? Function(String?)? validator;
+  final bool? readOnly;
 
   MyTextFormField(
       {required this.controller,
       required this.text,
       required this.type,
+      this.readOnly,
       this.validator,
       this.obscure});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly ?? false,
       controller: controller,
       decoration: InputDecoration(
         labelText: text,
