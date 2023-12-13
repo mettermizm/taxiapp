@@ -11,53 +11,37 @@ import 'package:taxiapp/class/custom_icon.dart';
 import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/services/location_service.dart';
 
-// ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   Map<String, dynamic>? baslangic;
   Map<String, dynamic>? marker;
 
   MyHomePage({super.key, this.baslangic, this.marker});
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   late Future<Uint8List> iconBytes;
-  late double distance; // double türünde bir değişken tanımlıyoruz
+  late double distance;
   final Set<Marker> _markers = Set<Marker>();
   final Set<Polyline> _polylines = Set<Polyline>();
   List<LatLng> polygonLatLngs = <LatLng>[];
 
   int _polylineIdCounter = 1;
-  late double? latitude;
-  late double? longitude;
+  LatLng? userLocation;
+  LatLng? markerLocation;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool showOtherWidgets = true;
-  LatLng startPoint =
-      LatLng(38.41465813848041, 27.13873886099405); // Örnek başlangıç noktası
-  LatLng endPoint =
-      LatLng(38.41170946334618, 27.128457612315454); // Örnek bitiş noktası
+  LatLng startPoint = LatLng(38.41465813848041, 27.13873886099405);
+  LatLng endPoint = LatLng(38.41170946334618, 27.128457612315454);
 
   @override
   void initState() {
     super.initState();
     iconBytes = loadIconBytes('assets/car.png');
     _setMarker(LatLng(38.47570, 27.03719));
-
-    // calculateDistance fonksiyonunu burada async olarak çağırıyoruz ve sonucunu bekliyoruz
-    calculateDistance(
-      LatLng(38.41170946334618, 27.128457612315454),
-      LatLng(widget.marker?['lat'] ?? 37.7749,
-          widget.marker?['lang'] ?? -122.4194),
-    ).then((result) {
-      setState(() {
-        distance = result; // Sonucu distance değişkenine atıyoruz
-      });
-      print('İki Marker arasındaki mesafe: $distance metre');
-    });
-// 38.42159726811209, 27.132838135850328
-// 38.41904805743978, 27.132911222045077
     _addPolyline(startPoint, endPoint);
 
     getLocationData();
@@ -108,21 +92,22 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> getLocationData() async {
-    try {
-      Position position = await getCurrentLocation();
+  try {
+    Position position = await getCurrentLocation();
 
-      setState(() {
-        latitude = position.latitude;
-        longitude = position.longitude;
-      });
+    setState(() {
+      userLocation = LatLng(position.latitude, position.longitude);
+      markerLocation = LatLng(position.latitude, position.longitude);
+    });
 
-      print("Latitude: $latitude, Longitude: $longitude");
+    print("Latitude: ${position.latitude}, Longitude: ${position.longitude}");
 
-      // Bu değerleri başka bir işlemde kullanabilirsiniz.
-    } catch (e) {
-      print("Hata: $e");
-    }
+    // Bu değerleri başka bir işlemde kullanabilirsiniz.
+  } catch (e) {
+    print("Hata: $e");
   }
+}
+
 
   // void _setPolygon() {
   //   final String polygonIdVal = 'polygon_$_polygonIdCounter';
@@ -182,22 +167,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   String ucret = "0";
-
-  // İki nokta arasındaki mesafeyi hesaplar
-  Future<double> calculateDistance(LatLng start, LatLng end) async {
-    final Position startPosition = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-
-    final double distanceInMeters = await Geolocator.distanceBetween(
-      startPosition.latitude,
-      startPosition.longitude,
-      end.latitude,
-      end.longitude,
-    );
-
-    return distanceInMeters;
-  }
 
   void _addPolyline(LatLng startPoint, LatLng endPoint) {
     final String polylineIdVal = 'polyline_$_polylineIdCounter';
@@ -442,7 +411,6 @@ class _MyHomePageState extends State<MyHomePage> {
       isDarkMode ? _mapStyleForDarkMode : _mapStyleForLightMode,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Provider.of<ThemeNotifier>(context).isDarkMode;
@@ -454,7 +422,7 @@ class _MyHomePageState extends State<MyHomePage> {
             future: iconBytes,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator(); // İkon yüklenene kadar bekleme göstergesi
+                return CircularProgressIndicator();
               }
 
               if (snapshot.hasError) {
@@ -465,7 +433,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
               return GoogleMap(
                 onMapCreated: (GoogleMapController controller) {
-                  _setMapStyle(isDarkMode); // İlk map stilini ayarlayın
+                  _setMapStyle(isDarkMode);
                 },
                 polylines: _polylines,
                 onCameraMove: (p0) => {
@@ -480,13 +448,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 mapType: MapType.normal,
                 initialCameraPosition: CameraPosition(
-                    target: LatLng(38.42159726811209, 27.132838135850328),
-                    zoom: 14.0),
+                  target: LatLng(38.42159726811209, 27.132838135850328),
+                  zoom: 14.0,
+                ),
                 markers: Set<Marker>.of([
                   Marker(
                     markerId: MarkerId('marker_1'),
-                    position:
-                        LatLng(latitude ?? 37.7749, longitude ?? -122.4194),
+                    position: userLocation ?? LatLng(37.7749, -122.4194),
                     infoWindow: InfoWindow(
                       title: 'Konumunuz',
                       snippet: 'Şuan bu konumdasınız',
@@ -494,10 +462,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Marker(
                     markerId: MarkerId('marker_2'),
-                    position: LatLng(widget.marker?['lat'] ?? 37.7749,
-                        widget.marker?['lang'] ?? -122.4194),
-                    icon: BitmapDescriptor.fromBytes(
-                        iconData), // İkon baytlarını kullanın
+                    position: markerLocation ?? LatLng(37.7749, -122.4194),
+                    icon: BitmapDescriptor.fromBytes(iconData),
                     infoWindow: InfoWindow(
                       title: widget.marker?['name'] ?? "Undefined",
                       snippet: "Seçilen Konum",
@@ -530,7 +496,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   size: 20.0,
                   opacity: 1,
                 ),
-                elevation: 0, // Remove the shadow
+                elevation: 0,
               ),
             ),
           ),
@@ -543,9 +509,10 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Visibility(
               visible: showOtherWidgets,
               child: BottomBar(
-                  konum: widget.baslangic == null
-                      ? '${latitude} $longitude'
-                      : widget.marker?['name']),
+                konum: widget.baslangic == null
+                    ? '${userLocation?.latitude} ${userLocation?.longitude}'
+                    : widget.marker?['name'],
+              ),
             ),
           ),
         ],
