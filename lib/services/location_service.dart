@@ -2,7 +2,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-class LocationSerivce {
+class LocationService {
   final String key = 'AIzaSyDVmWA_B1R1eetTVJp_pMzfG6HCIT2S9is';
 
   Future<String> getPlaceId(String input) async {
@@ -44,11 +44,11 @@ class LocationSerivce {
     }
   }
 
-  Future<Map<String, dynamic>> getDirections(String destination,
-      double lat, double lang) async {
-    String userLocal ='$lat , $lang';
+   Future<Map<String, dynamic>> getDirections(
+      String destination, double lat, double lang) async {
+    String userLocal = '$lat,$lang'; // Değişiklik burada
     final String url =
-        'https://maps.googleapis.com/maps/api/directions/json?origin=${userLocal}&destination=$destination&key=$key';
+        'https://maps.googleapis.com/maps/api/directions/json?origin=$userLocal&destination=$destination&key=$key';
 
     print(url);
 

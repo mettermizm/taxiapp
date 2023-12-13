@@ -294,7 +294,8 @@ class _SearchAreaState extends State<SearchArea> {
             context,
             MaterialPageRoute(
                 builder: (context) => MyHomePage(
-                    )));
+                    baslangic: _baseLocation['$title'],
+                    marker: _baseLocation['$title'],)));
       },
       child: Row(
         children: [

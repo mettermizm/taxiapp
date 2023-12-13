@@ -11,6 +11,7 @@ import 'package:taxiapp/class/custom_icon.dart';
 import 'package:taxiapp/class/model/theme.dart';
 import 'package:taxiapp/services/location_service.dart';
 
+// ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   Map<String, dynamic>? baslangic;
   Map<String, dynamic>? marker;
@@ -34,15 +35,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool showOtherWidgets = true;
-  LatLng startPoint = LatLng(38.41465813848041, 27.13873886099405);
-  LatLng endPoint = LatLng(38.41170946334618, 27.128457612315454);
 
   @override
   void initState() {
     super.initState();
     iconBytes = loadIconBytes('assets/car.png');
     _setMarker(LatLng(38.47570, 27.03719));
-    _addPolyline(startPoint, endPoint);
 
     getLocationData();
     drawLine();
@@ -93,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> getLocationData() async {
   try {
-    Position position = await getCurrentLocation();
+    Position position = await getCurrentLocation(); 
 
     setState(() {
       userLocation = LatLng(position.latitude, position.longitude);
@@ -141,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void drawLine() async {
-    var directions = await LocationSerivce().getDirections(
+    var directions = await LocationService().getDirections(
         widget.marker?['adres'] ?? 'Küçükyalı Mah, Mithatpaşa Cd. No:469, 35280 Konak/İzmir',
         38.41170946334618,
         27.128457612315454);
@@ -167,20 +165,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   String ucret = "0";
-
-  void _addPolyline(LatLng startPoint, LatLng endPoint) {
-    final String polylineIdVal = 'polyline_$_polylineIdCounter';
-    _polylineIdCounter++;
-
-    _polylines.add(
-      Polyline(
-        polylineId: PolylineId(polylineIdVal),
-        width: 5,
-        color: Colors.blue,
-        points: [startPoint, endPoint],
-      ),
-    );
-  }
 
   Future<Uint8List> loadIconBytes(String assetPath) async {
     final ByteData data = await rootBundle.load(assetPath);
@@ -510,7 +494,7 @@ class _MyHomePageState extends State<MyHomePage> {
               visible: showOtherWidgets,
               child: BottomBar(
                 konum: widget.baslangic == null
-                    ? '${userLocation?.latitude} ${userLocation?.longitude}'
+                    ? 'Nereye Gitmek İstersiniz?'
                     : widget.marker?['name'],
               ),
             ),
