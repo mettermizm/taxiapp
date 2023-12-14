@@ -227,7 +227,7 @@ class _PeoplesState extends State<Peoples> {
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(person['distance'] ?? ''),
+                              Text(person['distance'] ?? ''), 
                               SizedBox(height: 5),
                               Row(
                                 children: [
