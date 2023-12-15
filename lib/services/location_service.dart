@@ -15,7 +15,7 @@ class LocationService {
 
     var placeId = json['candidates'][0]['place_id' ]as String;
 
-    print(placeId);
+    print(placeId); 
     return placeId;
   }
 
