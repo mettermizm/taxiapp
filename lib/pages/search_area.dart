@@ -248,8 +248,7 @@ class _SearchAreaState extends State<SearchArea> {
     );
   }
 
-  GestureDetector gestureDetector(
-      String title, Map<String, dynamic> locationData) {
+  GestureDetector gestureDetector(String title, Map<String, dynamic> locationData) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
